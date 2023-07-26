@@ -1,5 +1,5 @@
 
-# Microracle <img src="var/figures/microracle.png" align="right" width="100" />
+# Microracle <img src="var/img/logo_black.png" align="right" width="100" />
 
 Microracle allows users to employ the bacterial inactivation models developed in our group with their own experimental data. Alternatively, the user can simply load the available experimental data for _Escherichia coli_ and _Bacillus cereus_ and modify the model parameters to test how they affect the model output. 
 
