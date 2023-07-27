@@ -20,8 +20,8 @@ Recycling and Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (
 * Nerea Martínez: Development of mathematical models. 
 * Xosé A. Vázquez: Experimental design
 
-For any question related to the mathematical models, please contact with Míriam R. García (miriamr (at) iim.csic.es)
-Microracle is a project in early development, so you may encounter some problems on the web. To report any bug or a problem (https://github.com/apedreira/microracle), please generate a new issue in the GitHub repository or contact with Adrián Pedreira (apedreira (at) iim.csic.es).
+For any question related to the mathematical models, please contact with Míriam R. García (miriamr@iim.csic.es)
+Microracle is a project in early development, so you may encounter some problems on the web. To report any bug or a problem (https://github.com/apedreira/microracle), please generate a new issue in the GitHub repository or contact with Adrián Pedreira (apedreira@iim.csic.es).
 
 
 
