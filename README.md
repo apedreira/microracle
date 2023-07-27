@@ -27,4 +27,4 @@ Microracle is a project in early development, so you may encounter some problems
 
 ## Access
 
-Microracle can be freely accessed from [https://microracle.shinyapps.io/Microracle/](https://microracle.shinyapps.io/Microracle/). No requirements other than internet connectioAn from a web browser are necessary.
+Microracle can be freely accessed from [https://microracle.shinyapps.io/Microracle/](https://microracle.shinyapps.io/Microracle/). No requirements other than internet connection from a web browser are necessary.
