@@ -7,6 +7,7 @@ Currently, the following models are available:
 
 
 * Microbial nactivation by carvacrol at sub-MIC concentrations
+* Microbial nactivation by didecyldimethylammonium chloride (DDAC) at sub-MIC concentrations
 
 
 
@@ -16,9 +17,9 @@ Microracle has been developed by researchers of the Biosystems and Bioprocess En
 Recycling and Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (Vigo, Spain):
 
 * Adrián Pedreira: Web developer, experimentation and data collection.
-* Míriam R. García: Development of mathematical models.  
 * Nerea Martínez: Development of mathematical models. 
-* Xosé A. Vázquez: Experimental design
+* Xosé A. Vázquez: Experimental design-
+* Míriam R. García: Development of mathematical models.  
 
 For any question related to the mathematical models, please contact with Míriam R. García (miriamr@iim.csic.es)
 Microracle is a project in early development, so you may encounter some problems on the web. To report any bug or a problem (https://github.com/apedreira/microracle), please generate a new issue in the GitHub repository or contact with Adrián Pedreira (apedreira@iim.csic.es).
