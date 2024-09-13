@@ -18,7 +18,7 @@ Recycling and Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (
 
 * Adrián Pedreira: Web developer, experimentation and data collection.
 * Nerea Martínez: Development of mathematical models. 
-* Xosé A. Vázquez: Experimental design-
+* Xosé A. Vázquez: Experimental design
 * Míriam R. García: Development of mathematical models.  
 
 For any question related to the mathematical models, please contact with Míriam R. García (miriamr@iim.csic.es)
