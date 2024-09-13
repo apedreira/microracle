@@ -6,8 +6,8 @@ Microracle allows users to employ the bacterial inactivation models developed in
 Currently, the following models are available:
 
 
-* Microbial nactivation by carvacrol at sub-MIC concentrations
-* Microbial nactivation by didecyldimethylammonium chloride (DDAC) at sub-MIC concentrations
+* Microbial inactivation by carvacrol at sub-MIC concentrations
+* Microbial inactivation by didecyldimethylammonium chloride (DDAC) at sub-MIC concentrations
 
 
 
@@ -22,7 +22,7 @@ Recycling and Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (
 * Míriam R. García: Development of mathematical models.  
 
 For any question related to the mathematical models, please contact with Míriam R. García (miriamr@iim.csic.es)
-Microracle is a project in early development, so you may encounter some problems on the web. To report any bug or a problem (https://github.com/apedreira/microracle), please generate a new issue in the GitHub repository or contact with Adrián Pedreira (apedreira@iim.csic.es).
+Microracle is a project in early development, so you may encounter some bugs on the web. To report any bug or a problem (https://github.com/apedreira/microracle), please generate a new issue in the GitHub repository or contact with Adrián Pedreira (apedreira@iim.csic.es).
 
 
 
