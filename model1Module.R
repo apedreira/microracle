@@ -1,8 +1,7 @@
 library(shinycssloaders)
 
 
-model1UI <- function() {
-
+model1UI <- function() {  
 tabPanel(
   "Carvacrol at sub-MIC concentrations",
   sidebarLayout(sidebarPanel(
@@ -54,7 +53,6 @@ tabPanel(
                        "Rate of decay as antimicrobial concentration increases",
                        "right",
                        options = list(container = "body")),
-             
       ),
       
       column(5, numericInput(inputId = "mug0",
@@ -484,7 +482,7 @@ model1Server <- function(input, output, session) {
                                          y = log10(y_exp),  mode = "markers", 
                                          name = paste0(legendName, 
                                                        " (observed)"), 
-                                         marker = list(color = plotColors [l-1]))
+                                         marker = list(color = plotColors[l-1]))
                            p = add_lines(p, x = time_mod ,y = y_mod, 
                                          mode="line",
                                          name = paste0(legendName, 
@@ -513,19 +511,20 @@ model1Server <- function(input, output, session) {
               hot_validate_numeric(col = c(1,2,3), min = 0)
           })
           output$table2 = renderRHandsontable({
-            rhandsontable(outputValues$data, maxRows = 100, colHeaders = c("Time (h)",
-                                                                           "Control CFU/mL",
-                                                                           "Control Carvacrol (mg/L)",
-                                                                           "Exp#2 CFU/mL",
-                                                                           "Exp#2 Carvacrol (mg/L)",
-                                                                           "Exp#3 CFU/mL",
-                                                                           "Exp#3 Carvacrol (mg/L)",
-                                                                           "Exp#4 CFU/mL",
-                                                                           "Exp#4 Carvacrol (mg/L)",
-                                                                           "Exp#5 CFU/mL",
-                                                                           "Exp#5 Carvacrol (mg/L)",
-                                                                           "Exp#6 CFU/mL",
-                                                                           "Exp#6 Carvacrol (mg/L)"))%>%
+            rhandsontable(outputValues$data, maxRows = 100, 
+                          colHeaders = c("Time (h)",
+                                                   "Control CFU/mL",
+                                                   "Control Carvacrol (mg/L)",
+                                                   "Exp#2 CFU/mL",
+                                                   "Exp#2 Carvacrol (mg/L)",
+                                                   "Exp#3 CFU/mL",
+                                                   "Exp#3 Carvacrol (mg/L)",
+                                                   "Exp#4 CFU/mL",
+                                                   "Exp#4 Carvacrol (mg/L)",
+                                                   "Exp#5 CFU/mL",
+                                                   "Exp#5 Carvacrol (mg/L)",
+                                                   "Exp#6 CFU/mL",
+                                                   "Exp#6 Carvacrol (mg/L)"))%>%
               hot_validate_numeric(col = c(1,2,3), min = 0)
           })
           
