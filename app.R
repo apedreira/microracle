@@ -145,14 +145,14 @@ ui =
               column(
                 width = 6,
                 h1("Microracle"),
-                # HMTL("
-                #   <p>Microracle allows users to employ the bacterial 
-                #  inactivation models developed in our group with their own 
-                # experimental data. Alternatively, the user can simply load the
-                # available experimental data for <i>Escherichia coli</i> and 
-                #<i>Bacillus cereus</i> and modify the model parameters to test 
-                # how they affect the model output.
-                # Currently, the following models are available:</p>"),
+                 HMTL("
+                   <p>Microracle allows users to employ the bacterial 
+                  inactivation models developed in our group with their own 
+                 experimental data. Alternatively, the user can simply load the
+                 available experimental data for <i>Escherichia coli</i> and 
+                <i>Bacillus cereus</i> and modify the model parameters to test 
+                 how they affect the model output.
+                 Currently, the following models are available:</p>"),
                 h2("Authoring"),
                 p(
                   "Microracle has been developed by researchers of the
