@@ -1,5 +1,5 @@
 ####################
-###   LIBRARIES   ###
+###   LIBRARIES  ###
 ####################
 
 library(shiny)
