@@ -205,8 +205,7 @@ model1Server <- function(input, output, session) {
     
     #Make dataframe reactive to changes
     datavalues = reactiveValues(data = exp_df)
-    # print(texto)
-    
+
     #Create a handsontable with the dataframe content and validate just 
     #numerical content
     output$table = renderRHandsontable({
@@ -426,20 +425,10 @@ model1Server <- function(input, output, session) {
         observeEvent(input$runMultiple,
                      {outputValues$data = hot_to_r(input$table2)
                      colHeaders = colHeaders()
-                     
-                     # empty_cols = emptyColumns(outputValues$data)
-                     # print(paste0("Columnas valeiras: ", empty_cols))
-                     # otherdata = subset(outputValues$data, select = -c(1))
-                     
-                     # print(otherdata)
-                     # print(ncol(outputValues$data))
-                     # print(ncol(otherdata))
                      validation = dataValidatorMultiple(outputValues$data)
                      validation_msg = validation[[1]]
                      validated_subsetDF = validation[[2]]
-                     #print(paste0("En app: ", validation_msg))
-                     #print(validated_subsetDF)
-                     #getEmptyColumns(outputValues$data)
+
                      
                      if(validation_msg == "OK") {
                        #Packing parameters in a vector
@@ -489,7 +478,6 @@ model1Server <- function(input, output, session) {
                            currentColName = colHeaders[exp_name]
                            legendName =  substr(currentColName, 1,
                                                 nchar(currentColName) - 6)
-                           # print(log10(unlist(validated_subsetDF[l])))
                            #Trace plot. Markers depict experimental points,
                            #lines model prediction
                            p = add_trace(p, x = unlist(validated_subsetDF[1]), 
