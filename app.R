@@ -68,7 +68,8 @@ ui =
    
              "label {margin-bottom:10px, font-weight:bold}",
              ".control-label { font-size:110%;}",
-             ".action-button {padding:8px 16px; margin-right: 16px;font-size:120%}",
+             ".action-button {padding:8px 16px; margin-right: 16px;
+             font-size:120%}",
             ".navbar-nav {float: none !important;}",
              ".navbar-nav > li:nth-child() {float: right;right: 150px;}",
              ".navbar-nav > li:nth-child(4) {float: right;, margin-top: 10px}",
@@ -145,21 +146,29 @@ ui =
                 width = 6,
                 h1("Microracle"),
                 # HMTL("
-                #   <p>Microracle allows users to employ the bacterial inactivation models developed in our group with their own experimental data. 
-                Alternatively, the user can simply load the available experimental data for <i>Escherichia coli</i> and <i>Bacillus cereus</i> 
-                and modify the model parameters to test how they affect the model output.
+                #   <p>Microracle allows users to employ the bacterial 
+                #  inactivation models developed in our group with their own 
+                # experimental data. Alternatively, the user can simply load the
+                # available experimental data for <i>Escherichia coli</i> and 
+                #<i>Bacillus cereus</i> and modify the model parameters to test 
+                # how they affect the model output.
                 # Currently, the following models are available:</p>"),
                 h2("Authoring"),
                 p(
-                  "Microracle has been developed by researchers of the Biosystems and Bioprocess Engineering Group (Bio2Eng) and Recycling and
-                  Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (Vigo, Spain):"
+                  "Microracle has been developed by researchers of the
+                  Biosystems and Bioprocess Engineering Group (Bio2Eng) and 
+                  Recycling and Valorization of Waste Materials (REVAL) groups 
+                  from the IIM-CSIC (Vigo, Spain):"
                 ),
                 tags$div(tags$ul(
                   tags$li(
-                  tags$span("Adrián Pedreira: Web developer, experimentation and data collection.")),
-                  tags$li(tags$span("Nerea Martínez: Development of mathematical models.")),
+                  tags$span("Adrián Pedreira: Web developer, experimentation and 
+                            data collection.")),
+                  tags$li(tags$span("Nerea Martínez: Development of
+                                    mathematical models.")),
                   tags$li(tags$span("Xosé A. Vázquez: Experimental design")),
-                  tags$li(tags$span("Míriam R. García: Development of mathematical models.")))
+                  tags$li(tags$span("Míriam R. García: Development of 
+                                    mathematical models.")))
                   ),
                 
                 HTML("<p>For any question related to the mathematical models,
