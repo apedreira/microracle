@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "Microracle"
+version: 1.0.1
+license: "MIT"
+type: software
+abstract: "Microracle is an interactive web-based tool designed to analyze bacterial population dynamics under antimicrobial stress. It provides advanced mathematical modeling modules. Developed by the Bio2Eng and REVAL groups at IIM-CSIC to better understand antimicrobial resistance."
+message:"If you use this software, please cite the reference associated of each model provided in the tab 'Reference'"
+authors:
+  - given-names: Adrián 
+    family-names: Pedreira
+    affiliation: IIM-CSIC | REVAL Group / Bio2Eng Group 
+    orcid: "https://orcid.org/0000-0002-7843-4111"
+  - given-names: Xosé Antón
+    family-names: Vázquez-Álvarez
+    affiliation: REVAL Group
+    orcid: "https://orcid.org/0000-0002-1122-4726"
+  - given-names: Nerea
+    family-names: Martínez-López
+    affiliation: IIM-CSIC | Bio2Eng Group
+    orcid: "https://orcid.org/0000-0002-3976-9883"
+  - given-names: Míriam
+    family-names: R. García
+    affiliation: IIM-CSIC | Bio2Eng Group
+    orcid: "https://orcid.org/0000-0001-9538-6388"
+keywords:
+  - antimicrobial resistance
+  - bacterial competition
+  - disinfection
+  - population dynamics
+  - mathematical modeling
