@@ -125,7 +125,7 @@ ui <-
             class = "table about-table table-hover",
             tags$thead(
               tags$tr(
-                tags$th("Model / Tool"),
+                tags$th("Project"),
                 tags$th("Description"),
                 tags$th("Authors"),
                 tags$th("Reference"),
@@ -171,25 +171,24 @@ ui <-
           
           hr(),
           h2("Authoring"),
-          p("Microracle is a collaborative effort developed by the Biosystems and Bioprocess Engineering Group (Bio2Eng) and the Recycling and Valorization of Waste Materials (REVAL) groups at the IIM-CSIC (Vigo, Spain)."),
+          p("Microracle originated as a joint initiative of the Bio2Eng and REVAL research groups at the IIM‑CSIC (Vigo, Spain):"),
           
           tags$div(
             tags$ul(
               tags$li(tags$strong("Adrián Pedreira:"), " Web development, experimental assays, and data collection."),
-              tags$li(tags$strong("Nerea Martínez:"), " Mathematical modeling and theoretical framework."),
+              tags$li(tags$strong("Nerea Martínez-López:"), " Mathematical modeling and theoretical framework."),
               tags$li(tags$strong("Xosé A. Vázquez:"), " Experimental design."),
               tags$li(tags$strong("Míriam R. García:"), " Web and Theory Supervision.")
             )
           ),
-          
-          h3("Institutional Collaborations"),
-          p("We work with experts to expand the modeling capabilities of Microracle:"),
+
+          p("Microracle continues to grow through collaborations with international experts:"),
           
           tags$table(
             class = "table about-table",
             tags$thead(
               tags$tr(
-                tags$th("Research Project"),
+                tags$th("Project"),
                 tags$th("Institution"),
                 tags$th("Collaborators")
               )
