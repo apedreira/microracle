@@ -108,11 +108,18 @@ ui <-
         column(width = 2, ""),
         column(
           width = 8,
-          h1("Microracle"),
-          h4(tags$em("Interactive simulation and analysis of antimicrobial treatments on bacterial dynamics")),
-          br(),
-          p("Microracle provides a suite of computational tools and mathematical models designed to predict and analyze microbial responses to various treatments:"),
+          h1(class = "text-center","Microracle"),
           
+          h4(
+            class = "text-center",
+            "Understanding the effect of antimicrobials on bacterial dynamics "
+          ),
+          h4(
+            class = "text-center",
+            "through the integration of theory and data"
+          ),
+          
+
           # TABLA DE MODELOS
           tags$table(
             class = "table about-table table-hover",
@@ -129,7 +136,7 @@ ui <-
               # Carvacrol
               tags$tr(
                 tags$td(tags$strong("Carvacrol sub-MIC")),
-                tags$td(HTML("Predictive modeling for Carvacrol inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
+                tags$td(HTML("Data & Model to predict Carvacrol inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
                 tags$td("Pedreira et al. (IIM-CSIC)"),
                 tags$td(tags$a(href = "https://doi.org/10.1016/j.jfoodeng.2023.111734", target = "_blank", "Journal of Food Engineering")),
                 tags$td(
@@ -140,7 +147,7 @@ ui <-
               # DDAC
               tags$tr(
                 tags$td(tags$strong("DDAC sub-MIC")),
-                tags$td(HTML("Predictive modeling for DDAC inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
+                tags$td(HTML("Data & Model to predict DDAC inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
                 tags$td("Pedreira et al. (IIM-CSIC)"),
                 tags$td(tags$a(href = "https://doi.org/10.3389/fmicb.2022.758237", target = "_blank", "Frontiers in Microbiology")),
                 tags$td(
