@@ -119,7 +119,8 @@ ui <-
               tags$tr(
                 tags$th("Model"),
                 tags$th("Description"),
-                tags$th("Reference"),
+                tags$th("Authors"),
+                tags$th("Ref"),
                 tags$th("Action")
               )
             ),
@@ -128,6 +129,7 @@ ui <-
               tags$tr(
                 tags$td(tags$strong("Carvacrol at sub-MIC concentrations")),
                 tags$td("Model Simulation & Data for E. coli and B. cereus inactivation at sub-MIC carvacrol concentrations."),
+                tags$td("Pedreira, Martínez-López, Vázquez, García (IIM-CSIC)"),
                 tags$td(tags$a(href = "https://doi.org/10.1016/j.jfoodeng.2023.111734", target = "_blank", "Read Paper")),
                 tags$td(
                   actionButton("go_mod1", "Go to Model", class = "btn-info btn-sm",
@@ -138,6 +140,7 @@ ui <-
               tags$tr(
                 tags$td(tags$strong("DDAC at sub-MIC concentrations")),
                 tags$td("Model Simulation & Data for DDAC inactivation of E. coli and B. cereus at sub-MIC concentrations."),
+                tags$td("Pedreira, Vázquez, García (IIM-CSIC)"),
                 tags$td(tags$a(href = "https://doi.org/10.3389/fmicb.2022.758237", target = "_blank", "Read Paper")),
                 tags$td(
                   actionButton("go_mod2", "Go to Model", class = "btn-info btn-sm",
@@ -148,6 +151,7 @@ ui <-
               tags$tr(
                 tags$td(tags$strong("Selection & Extinction planes")),
                 tags$td("Conditions for selection and extinction between two competing strains under cyclic treatment depending on growth-kill trade-off"),
+                tags$td("Martínez-López, Pedreira, and García (IIM-CSIC) in collaboration with Nordholt and Schreiber (BAM)"),
                 tags$td(tags$a(href = "https://arxiv.org/abs/2602.14645", target = "_blank", "arxiv with theory")),
                 tags$td(
                   actionButton("go_mod3", "Go to Analysis", class = "btn-info btn-sm",
@@ -159,14 +163,57 @@ ui <-
           
           hr(),
           h2("Authoring"),
-          p("Microracle has been developed by researchers of the Biosystems and Bioprocess Engineering Group (Bio2Eng) and Recycling and Valorization of Waste Materials (REVAL) groups from the IIM-CSIC (Vigo, Spain):"),
-          tags$div(tags$ul(
-            tags$li(tags$span("Adrián Pedreira: Web developer, experimentation and data collection.")),
-            tags$li(tags$span("Nerea Martínez: Development of mathematical models.")),
-            tags$li(tags$span("Xosé A. Vázquez: Experimental design")),
-            tags$li(tags$span("Míriam R. García: Development of mathematical models."))
-          )),
-          HTML("<p>For any question related to the mathematical models, please contact with Míriam R. García (miriamr@iim.csic.es).</p>"),
+          
+          p(
+            "Microracle has been developed by researchers from the Biosystems and Bioprocess Engineering Group (Bio2Eng) and the Recycling and Valorization of Waste Materials (REVAL) groups at the IIM-CSIC (Vigo, Spain)."
+          ),
+          
+          # Cleaner list with bold names
+          tags$div(
+            tags$ul(
+              tags$li(tags$strong("Adrián Pedreira:"), " Web development, experimentation, and data collection."),
+              tags$li(tags$strong("Nerea Martínez:"), " Development of mathematical models."),
+              tags$li(tags$strong("Xosé A. Vázquez:"), " Experimental design."),
+              tags$li(tags$strong("Míriam R. García:"), " Development of mathematical models.")
+            )
+          ),
+          h3("Collaborations"),
+          
+          p("Some models have been developed in collaboration with external researchers:"),
+          
+          # Readable table with corrected spelling
+          tags$table(
+            class = "table table-striped table-bordered",
+            tags$thead(
+              tags$tr(
+                tags$th("Model"),
+                tags$th("Institution"),
+                tags$th("People")
+              )
+            ),
+            tags$tbody(
+              tags$tr(
+                tags$td("Selection and Extinction Planes"),
+                tags$td("Federal Institute for Materials Research and Testing (BAM), Berlin, Germany"),
+                tags$td("Niclas Nordholt and Frank Schreiber")
+              )
+            )
+          ),
+          
+          h2("Contact details"),
+          
+          p(
+            "For questions related to the mathematical models, please contact ",
+            tags$strong("Míriam R. García"),
+            " (miriamr@iim.csic.es)."
+          ),
+          p(
+            "Microracle is in early development. If you encounter any issues, please open a new issue in the ",
+            tags$a(href = "https://github.com/apedreira/microracle", target = "_blank", "GitHub repository"),
+            " or write to ",
+            tags$strong("Adrián Pedreira"),
+            " (apedreira@iim.csic.es)."
+          ),
           
           h2("Requirements"),
           HTML("<p>Microracle can be freely accessed from <a href='https://microracle.shinyapps.io/Microracle/'>microracle.shinyapps.io/Microracle</a>.</p>")
