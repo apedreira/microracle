@@ -57,13 +57,12 @@ dataValidatorMultiple <- function(data) {
     time_length = length(unlist(subsetDf[[1]])[!is.na(unlist(subsetDf[[1]]))])
 
     #Get the number of no-Time columns of dataframe
-    #colNumber = ncol(subsetDf)/2-1
     colNumber = ncol(subsetDf)/2
-    print (colNumber)
+
     #A bucle which iterates over dataframe 1:5 is for the number of columns 
     #(10), but must be
     for (i in 1:colNumber){
-      print (i)
+
       #Extract columns and values to compare from dataframe
       initial_u = unlist(subsetDf[[(2*i)]][1])
       c_length = length(unlist(subsetDf[[(2*i+1)]])
@@ -137,7 +136,7 @@ getEmptyColumns <- function(data) {
     }
   }
   
-  print(emptyCols)
+
   return(emptyCols)
   }
 

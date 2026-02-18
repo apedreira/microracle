@@ -47,14 +47,11 @@ submic_ddac <- function(time_exp, c_exp, param, y_exp, disc_pts) {
   IC50_a   <- param[6]
   IC50_g   <- param[7]
   EC50_d  <- param[8]
-  
-  # Non user-settable parameters
   gamma_a  <- param[9]
-  #  print(paste0("Antes: ", typeof(gamma_a), ": ", gamma_a))
-  # gamma_a  <- 11.6259
-  # print(paste0("Logo: ", typeof(gamma_a), ": ", gamma_a))
   gamma_g  <- param[10]
   gamma_d  <- param[11]
+  
+  # Non user-settable parameters
   Ys       <- 0.2306
   aa       <- 0.0000
   bb       <- 77.7600

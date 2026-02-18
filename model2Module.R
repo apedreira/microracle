@@ -1,22 +1,22 @@
 library(shinycssloaders)
 
-
 model2UI <- function() {
   tabPanel(
-    "DDAC at sub-MIC concentrations",
+    title =  "DDAC at sub-MIC concentrations",
+    value = "model2",
     sidebarLayout(
       sidebarPanel(
         fluidRow(
           column(
             10,
             radioButtons("model2StrainID", "Preset data for:",
-              c("Escherichia coli" = "ecoli", "Bacillus cereus" = "bcereus"),
-              inline = TRUE
+                         c("Escherichia coli" = "ecoli", "Bacillus cereus" = "bcereus"),
+                         inline = TRUE
             ),
             bsTooltip("strainData",
-              "Predefined data and parameters for E.coli and B.cereus.",
-              "bottom",
-              options = list(container = "body")
+                      "Predefined data and parameters for E.coli and B.cereus.",
+                      "bottom",
+                      options = list(container = "body")
             )
           ),
           column(
@@ -29,9 +29,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("ka0",
-              "Adaptation rate without disinfectant",
-              "right",
-              options = list(container = "body")
+                      "Adaptation rate without disinfectant",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "kg0",
@@ -41,9 +41,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("kg0",
-              "Growth rate without disinfectant",
-              "right",
-              options = list(container = "body")
+                      "Growth rate without disinfectant",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "kd0",
@@ -53,9 +53,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("kd0",
-              "Death rate without disinfectant",
-              "right",
-              options = list(container = "body")
+                      "Death rate without disinfectant",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "kd1",
@@ -65,9 +65,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("kd1",
-              "Scaling of disinfectant effect on death",
-              "right",
-              options = list(container = "body")
+                      "Scaling of disinfectant effect on death",
+                      "right",
+                      options = list(container = "body")
             )
           ),
           column(
@@ -80,9 +80,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("ki",
-              "Inhibition constant due to cell density",
-              "right",
-              options = list(container = "body")
+                      "Inhibition constant due to cell density",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "IC50_a",
@@ -92,9 +92,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("IC50_a",
-              "Half maximal inhibitory concentration of adaptation rate",
-              "right",
-              options = list(container = "body")
+                      "Half maximal inhibitory concentration of adaptation rate",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "IC50_g",
@@ -104,9 +104,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("IC50_g",
-              "Half maximal inhibitory concentration of growth rate",
-              "right",
-              options = list(container = "body")
+                      "Half maximal inhibitory concentration of growth rate",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "EC50_d",
@@ -116,9 +116,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("EC50_d",
-              "Half maximal effective concentration on death",
-              "right",
-              options = list(container = "body")
+                      "Half maximal effective concentration on death",
+                      "right",
+                      options = list(container = "body")
             )
           ),
           column(
@@ -130,9 +130,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("gamma_a",
-              "Effect shape of disinfectant over adaptation rate",
-              "right",
-              options = list(container = "body")
+                      "Effect shape of disinfectant over adaptation rate",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "gamma_g",
@@ -142,9 +142,9 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("gamma_g",
-              "Effect shape of disinfectant over growth rate",
-              "right",
-              options = list(container = "body")
+                      "Effect shape of disinfectant over growth rate",
+                      "right",
+                      options = list(container = "body")
             ),
             numericInput(
               inputId = "gamma_d",
@@ -154,23 +154,23 @@ model2UI <- function() {
               width = "100%"
             ),
             bsTooltip("gamma_d",
-              "Effect shape of disinfectant over death rate",
-              "right",
-              options = list(container = "body")
+                      "Effect shape of disinfectant over death rate",
+                      "right",
+                      options = list(container = "body")
             )
           ),
         ),
         sliderInput("model2DiscTimes",
-          label = "Discretization points",
-          step = 10,
-          value = 100,
-          min = 10,
-          max = 200
+                    label = "Discretization points",
+                    step = 10,
+                    value = 100,
+                    min = 10,
+                    max = 200
         ),
         bsTooltip("model2DiscTimes",
-          "Number of intermediate points for modelling",
-          "bottom",
-          options = list(container = "body")
+                  "Number of intermediate points for modelling",
+                  "bottom",
+                  options = list(container = "body")
         )
       ),
       mainPanel(
@@ -180,8 +180,8 @@ model2UI <- function() {
           ),
           tabPanel(
             "Reference", HTML("<br> <p>
-         Pedreira, A., Vázquez, J. A., & García, M. R. (2022). Kinetics of Bacterial Adaptation, Growth, and Death at Didecyldimethylammonium Chloride sub-MIC Concentrations.
-         <i>Frontiers in Microbiology</i>, 13, 758237. doi: <a href='https://doi.org/10.3389/fmicb.2022.758237' target='_blank'>doi.org/10.3389/fmicb.2022.758237</a> </p>")
+          Pedreira, A., Vázquez, J. A., & García, M. R. (2022). Kinetics of Bacterial Adaptation, Growth, and Death at Didecyldimethylammonium Chloride sub-MIC Concentrations.
+          <i>Frontiers in Microbiology</i>, 13, 758237. doi: <a href='https://doi.org/10.3389/fmicb.2022.758237' target='_blank'>doi.org/10.3389/fmicb.2022.758237</a> </p>")
           )
         )
       )
@@ -194,9 +194,9 @@ model2UI <- function() {
         tabPanel(
           "Single experiment",
           column(12,
-            align = "center", style = "padding:16px",
-            actionButton("model2RunSingle", "Run", class = "btn-success"),
-            actionButton("model2ResetSingle", "Reset", class = "btn-warning"),
+                 align = "center", style = "padding:16px",
+                 actionButton("model2RunSingle", "Run", class = "btn-success"),
+                 actionButton("model2ResetSingle", "Reset", class = "btn-warning"),
           ),
           sidebarPanel(
             width = 4,
@@ -206,9 +206,9 @@ model2UI <- function() {
         tabPanel(
           "Multiple experiment",
           column(12,
-            align = "center", style = "padding:16px",
-            actionButton("model2RunMultiple", "Run", style = "padding:8px 16px; margin-right: 16px;font-size:120%", class = "btn-success"),
-            actionButton("model2ResetMultiple", "Reset", style = "padding:8px 16px; font-size:120%", class = "btn-success", class = "btn-warning")
+                 align = "center", style = "padding:16px",
+                 actionButton("model2RunMultiple", "Run", style = "padding:8px 16px; margin-right: 16px;font-size:120%", class = "btn-success"),
+                 actionButton("model2ResetMultiple", "Reset", style = "padding:8px 16px; font-size:120%", class = "btn-success", class = "btn-warning")
           ),
           sidebarPanel(
             width = 12,
@@ -259,7 +259,7 @@ model2UI <- function() {
 model2Server <- function(input, output, session) {
   observe({
     simpleDataDDAC <- simpleDataDDAC(input$model2StrainID)
-    # Wrap parameters with "updateXInput" to avoid trigger automatic rendering
+    # Use updateXInput to avoid triggering automatic rendering when updating parameters
     updateNumericInput(session, "ka0", value = simpleDataDDAC[4])
     updateNumericInput(session, "kg0", value = simpleDataDDAC[5])
     updateNumericInput(session, "kd0", value = simpleDataDDAC[6])
@@ -272,43 +272,41 @@ model2Server <- function(input, output, session) {
     updateNumericInput(session, "gamma_g", value = simpleDataDDAC[13])
     updateNumericInput(session, "gamma_d", value = simpleDataDDAC[14])
     updateSliderInput(session, "model2DiscTimes", value = 100)
-
-    # Create a data frame by calling simpleDataDDAC external function
-    # and set predefined experimental and modelling values for the initial plot
+    
+    # Call external function simpleDataDDAC to create a data frame
+    # and set predefined experimental/modelling values for the initial plot
     exp_df <- data.frame(
       Time = unlist(simpleDataDDAC[1]),
       y = simpleDataDDAC[[2]][[2]],
       drug = unlist(simpleDataDDAC[[3]][[2]])
     )
     texto <- input$model2StrainID
-
-    # Make dataframe reactive to changes
+    
+    # Initialize reactive values for the data frame
     datavalues <- reactiveValues(data = exp_df)
-    # print(texto)
 
-    # Create a handsontable with the dataframe content and validate just numerical content
+    
+    # Create a handsontable for the data and validate that content is numerical
     output$model2_single_table <- renderRHandsontable({
       rhandsontable(datavalues$data, maxRows = 100, colHeaders = c("Time (h)", "CFU/mL", "DDAC concentration (mg/L)")) %>%
         hot_validate_numeric(col = c(1, 2, 3), min = 0)
     })
-
+    
     alreadyOpened <- FALSE
-    # Observe selected tabset (Single/ Muliple experiment)
+    # Observe the selected tab (Single vs. Multiple experiments)
     observeEvent(input$model2_tabsetPanel, {
       ### ----------------------------##
-      ### CODE FOR SINGLE EXPERIMENT ##
+      ### CODE FOR SINGLE EXPERIMENT  ##
       ### ----------------------------##
-
-      # A variable to check if single experiment was already executed. Prevents
-      # loss previous plot when switching among single/ multiple experiment by
-      # blocking render the empty plot dataframe.
-
+      
+      # Flag to check if the single experiment was already executed. Prevents 
+      # loss of previous plot when switching tabs by blocking empty plot rendering.
       alreadyExecuted <- TRUE
-
-
+      
+      
       if (input$model2_tabsetPanel == "Single experiment") {
         alreadyExecuted <- TRUE
-
+        
         if (TRUE) {
           # Render empty plot frame
           output$model2PlotSingle <- renderPlotly({
@@ -322,22 +320,22 @@ model2Server <- function(input, output, session) {
               )
           })
         }
-
-
-
-        # Uptate dataframe values and plot just when clicking "Run" button. Avoid automatic rendering
+        
+        
+        
+        # Update data frame values and plot only when clicking "Run". Prevents automatic rendering.
         observeEvent(
           input$model2RunSingle,
           #
           {
             datavalues$data <- hot_to_r(input$model2_single_table)
             validation_msg <- dataValidatorSingle(datavalues$data)
-
+            
             if (validation_msg == "OK") {
-              # Uptate dataframe extracting values from the handsontable
+              # Update data frame by extracting values from the handsontable
               datavalues$data <- hot_to_r(input$model2_single_table)
-
-              # Packing equation parameters in a vector
+              
+              # Pack equation parameters into a vector
               p1 <- input$ka0
               p2 <- input$kg0
               p3 <- input$kd0
@@ -350,26 +348,26 @@ model2Server <- function(input, output, session) {
               p10 <- input$gamma_g
               p11 <- input$gamma_d
               params <- c(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)
-
-              # Get discretization times value
+              
+              # Retrieve discretization points
               discTimes <- input$model2DiscTimes
-
-
-              # Extracts experimental data from dataframe
+              
+              
+              # Extract experimental data from data frame
               y_exp <- unlist(datavalues$data$y)
               c_exp <- unlist(datavalues$data$drug)
               time_exp <- unlist(datavalues$data$Time)
-
-              # Call modelling function. Save model output in two vectors
+              
+              # Execute modelling function and store output in vectors
               submic_ddac_func <- submic_ddac(time_exp, c_exp, params, y_exp, discTimes)
               time_mod <- submic_ddac_func[[1]]
               y_mod <- submic_ddac_func[[2]]
-
-              # Plot results (dots as experimental data, lines as model output)
+              
+              # Plot results (markers for experimental data, lines for model output)
               output$model2PlotSingle <- renderPlotly({
                 plot_ly(datavalues$data,
-                  x = ~Time, y = log10(datavalues$data$y), name = "Observed", type = "scatter",
-                  mode = "markers", color = "white"
+                        x = ~Time, y = log10(datavalues$data$y), name = "Observed", type = "scatter",
+                        mode = "markers", color = "white"
                 ) %>%
                   add_lines(name = "Expected", x = time_mod, y = log10(y_mod), mode = "line") %>%
                   layout(
@@ -380,8 +378,8 @@ model2Server <- function(input, output, session) {
             }
           }
         )
-
-        # Reset dataframe, handsontable and plot to default when clicking "Reset" button
+        
+        # Reset data frame, handsontable, and plot to default state when clicking "Reset"
         observeEvent(
           input$model2ResetSingle,
           {
@@ -390,7 +388,7 @@ model2Server <- function(input, output, session) {
               rhandsontable(datavalues$data, maxRows = 100, colHeaders = c("Time (h)", "CFU/mL", "DDAC concentration (mg/L)")) %>%
                 hot_validate_numeric(col = c(1, 2, 3), min = 0)
             })
-
+            
             simpleDataDDAC <- simpleDataDDAC(input$model2StrainID)
             updateNumericInput(session, "ka0", value = simpleDataDDAC[4])
             updateNumericInput(session, "kg0", value = simpleDataDDAC[5])
@@ -404,7 +402,7 @@ model2Server <- function(input, output, session) {
             updateNumericInput(session, "gamma_g", value = simpleDataDDAC[13])
             updateNumericInput(session, "gamma_d", value = simpleDataDDAC[14])
             updateSliderInput(session, "model2DiscTimes", value = 100)
-
+            
             # Render empty plot frame
             output$model2PlotSingle <- renderPlotly({
               plot_ly(
@@ -419,12 +417,12 @@ model2Server <- function(input, output, session) {
           }
         )
       }
-
+      
       ### -------------------------------##
-      ### CODE FOR MULTIPLE EXPERIMENT  ##
+      ### CODE FOR MULTIPLE EXPERIMENT   ##
       ### -------------------------------##
-
-
+      
+      
       else if (input$model2_tabsetPanel == "Multiple experiment") {
         colHeaders <- c(
           "Time (h)",
@@ -441,8 +439,8 @@ model2Server <- function(input, output, session) {
           "Exp#6 CFU/mL",
           "Exp#6 DDAC (mg/L)"
         )
-
-        # Create a data frame and set predefined values for initial plot
+        
+        # Create data frame and set predefined values for initial plot
         preset_df <- data.frame(
           exp1_t = unlist(simpleDataDDAC[1]),
           exp1_y = simpleDataDDAC[[2]][[1]],
@@ -458,7 +456,7 @@ model2Server <- function(input, output, session) {
           exp6_y = simpleDataDDAC[[2]][[6]],
           exp6_d = unlist(simpleDataDDAC[[3]][[6]])
         )
-
+        
         # Render empty plot frame
         output$model2PlotSingle <- renderPlotly({
           plot_ly(
@@ -470,11 +468,11 @@ model2Server <- function(input, output, session) {
               xaxis = list(title = "Time (h)")
             )
         })
-
-        # Make dataframe reactive to changes
+        
+        # Make data frame reactive to changes
         outputValues <- reactiveValues(data = preset_df)
-
-
+        
+        
         colHeaders <- function() {
           input_count <- 1
           headers <- character(14)
@@ -486,48 +484,40 @@ model2Server <- function(input, output, session) {
           }
           return(headers)
         }
-
-
-
+        
+        
+        
         # outputValues$data=hot_to_r(input$table2)
-
-        # Create a handsontable with the dataframe content, using inputs values to set colheaders
+        
+        # Create handsontable using dynamic input values for column headers
         output$model2_mult_table <- renderRHandsontable({
           rhandsontable(outputValues$data, maxRows = 100, colHeaders = colHeaders()) %>%
             hot_validate_numeric(col = c(1:13), min = 0)
         })
-
-
-        # A loop that observe changes in inputs values and set col names in df and handsontable
+        
+        
+        # Loop to observe changes in input values and update data frame/handsontable column names
         for (i in 1:6) {
           observeEvent(input[[paste0("model2ColHeader", i)]], {
             colnames(preset_df)[i] <- input[[paste0("model2ColHeader", i)]]
           })
         }
-
-
-        # Apply changes in handsontable to dataframe when clicking in Run
+        
+        
+        # Apply handsontable changes to data frame when clicking "Run"
         observeEvent(input$model2RunMultiple, {
           outputValues$data <- hot_to_r(input$model2_mult_table)
           colHeaders <- colHeaders()
-
-
-          # empty_cols = emptyColumns(outputValues$data)
-          # print(paste0("Columnas valeiras: ", empty_cols))
-          # otherdata = subset(outputValues$data, select = -c(1))
-
-          # print(otherdata)
-          # print(ncol(outputValues$data))
-          # print(ncol(otherdata))
+          
           validation <- dataValidatorMultiple(outputValues$data)
           validation_msg <- validation[[1]]
           validated_subsetDF <- validation[[2]]
-          # print(paste0("En app: ", validation_msg))
-          print(validated_subsetDF)
-          # getEmptyColumns(outputValues$data)
 
+    
+      
+          
           if (validation_msg == "OK") {
-            # Packing equation parameters in a vector
+            # Pack equation parameters into a vector
             p1 <- input$ka0
             p2 <- input$kg0
             p3 <- input$kd0
@@ -540,42 +530,42 @@ model2Server <- function(input, output, session) {
             p10 <- input$gamma_g
             p11 <- input$gamma_d
             params <- c(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11)
-
-            # Get discretization times value
+            
+            # Retrieve discretization points
             discTimes <- input$model2DiscTimes
-
+            
             # Plot results
             output$model2PlotSingle <- renderPlotly({
-              # Initializate a scatter plot
+              # Initialize a scatter plot
               p <- plot_ly(type = "scatter", mode = "markers")
-
-              # Set counters for loop
+              
+              # Initialize loop counters
               l <- 2
               exp_name <- 2
               color <- 1
-
-              # Create a palette with 10 colours for traces and lines
+              
+              # Create a palette with 10 colors for traces and lines
               plotColors <- c("#404040", "#ffce00", "#619cff", "#e69f00", "#cc79a7", "#78ac44", "#d55e00", "#0072b2", "#751056", "#01665e")
-
-
-              # Unlist Time col from dataframe
+              
+              
+              # Unlist Time column from data frame
               time_exp <- unlist(validated_subsetDF[1])
-
-              # Iterate over dataframe and dinamically add traces and lines to plot
+              
+              # Iterate over data frame to dynamically add traces and lines to plot
               while (l < (length(validated_subsetDF) + 1)) {
                 y_exp <- unlist(validated_subsetDF[l])
                 drug_conc <- unlist(validated_subsetDF[l + 1])
-
-                # Call model function. Save model output in two vectors
+                
+                # Execute model function and store output in vectors
                 submic_ddac_func <- submic_ddac(time_exp, drug_conc, params, y_exp, discTimes)
                 time_mod <- submic_ddac_func[[1]]
                 y_mod <- log10(submic_ddac_func[[2]])
-                # Get col name from dataframe for include in the legend, remove the "CFU/mL" part
+                
+                # Retrieve column name for legend, removing the "CFU/mL" suffix
                 currentColName <- colHeaders[exp_name]
                 legendName <- substr(currentColName, 1, nchar(currentColName) - 6)
-                # print(log10(unlist(validated_subsetDF[l])))
-                # Trace plot. Markers depict experimental points, lines model prediction
-
+    
+                # Trace plot: Markers represent experimental data, lines represent model predictions
                 p <- add_trace(p, x = unlist(validated_subsetDF[1]), y = log10(y_exp), mode = "markers", name = paste0(legendName, " (observed)"), marker = list(color = plotColors[color]))
                 p <- add_lines(p, x = time_mod, y = y_mod, mode = "line", name = paste0(legendName, " (expected)"), line = list(color = plotColors[color]))
                 l <- l + 2
@@ -590,8 +580,8 @@ model2Server <- function(input, output, session) {
             })
           }
         })
-
-        # Reset dataframe, handsontable and plot to default when clicking "Reset" button
+        
+        # Reset data frame, handsontable, and plot to default state when clicking "Reset"
         observeEvent(
           input$model2ResetMultiple,
           {
@@ -618,8 +608,8 @@ model2Server <- function(input, output, session) {
               )) %>%
                 hot_validate_numeric(col = c(1, 2, 3), min = 0)
             })
-
-
+            
+            
             simpleDataDDAC <- simpleDataDDAC(input$model2StrainID)
             updateNumericInput(session, "ka0", value = simpleDataDDAC[4])
             updateNumericInput(session, "kg0", value = simpleDataDDAC[5])
@@ -633,8 +623,8 @@ model2Server <- function(input, output, session) {
             updateNumericInput(session, "gamma_g", value = simpleDataDDAC[13])
             updateNumericInput(session, "gamma_d", value = simpleDataDDAC[14])
             updateSliderInput(session, "model2DiscTimes", value = 100)
-
-
+            
+            
             # Render empty plot frame
             output$model2PlotSingle <- renderPlotly({
               plot_ly(
