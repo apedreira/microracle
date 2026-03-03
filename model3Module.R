@@ -101,26 +101,26 @@ model3UI <- function() {
               
               column(4, 
                      div(id = "tip_X_g",
-                         textInput("X_g", HTML("X<span class='supsub'>g<br/></span>"), width = "100%")
+                         textInput("X_g", HTML("X<span class='supsub'>e<br/></span> (CFUs/mL)"), width = "100%")
                      ),
-                     bsTooltip("tip_X_g", "Growth limit", "right", options = list(container = "body"))
+                     bsTooltip("tip_X_g", "Extinction limit (CFUs/mL)", "right", options = list(container = "body"))
               ),
               column(4, 
                      div(id = "tip_r_0",
-                         numericInput("r_0", HTML("R<span class='supsub'><br/>0</span>"), value = NULL, step = 0.01, width = "100%")
+                         numericInput("r_0", HTML("T:W<span class='supsub'><br/>0</span> (-)"), value = NULL, step = 0.01, width = "100%")
                      ),
                      bsTooltip("tip_r_0", "Initial mixing ratio (Strain 1 : Strain 2)", "right", options = list(container = "body"))
               ),
               
               column(4, 
                      div(id = "tip_T_g",
-                         numericInput("T_g", HTML("T<span class='supsub'><br/>g</span> (min)"), value = NULL, min = 1, width = "100%")
+                         numericInput("T_g", HTML("t<span class='supsub'><br/>g</span> (min)"), value = NULL, min = 1, width = "100%")
                      ),
                      bsTooltip("tip_T_g", "Duration of growth periods", "right", options = list(container = "body"))
               ),
               column(4, 
                      div(id = "tip_D",
-                         numericInput("D", HTML("Dilution factor (D)"), value = NULL, step = 1, min = 1, width = "100%")
+                         numericInput("D", HTML("D (-)"), value = NULL, step = 1, min = 1, width = "100%")
                      ),
                      bsTooltip("tip_D", "Dilution factor (1/value)", "right", options = list(container = "body"))
               ),
@@ -129,7 +129,7 @@ model3UI <- function() {
                      conditionalPanel(
                        condition = "input.model3Mode == 'by_k'",
                        div(id = "tip_T_k",
-                           numericInput("T_k", HTML("T<span class='supsub'><br/>k</span> (min)"), value = NULL, min = 1, width = "100%")
+                           numericInput("T_k", HTML("t<span class='supsub'><br/>k</span> (min)"), value = NULL, min = 1, width = "100%")
                        ),
                        bsTooltip("tip_T_k", "Duration of killing periods", "right", options = list(container = "body"))
                      )
@@ -157,7 +157,11 @@ model3UI <- function() {
           tabPanel("Results (Selection & Extinction)", 
                    withSpinner(plotOutput("plot_results", height = "750px"))
           ),
-          tabPanel("Reference", HTML("<br><p></p>"))
+          tabPanel(
+            "Reference", HTML("<br> <p>
+          Martínez-López, N., Nordholt, N., Schreiber, F. & García, M. R. (2022). Conditions for Bacterial Selection and Extinction Driven by Growth-Kill Trade-Off in Cyclic Antimicrobial Treatments.
+          <i>arXiv</i>. doi: <a href='https://doi.org/10.48550/arXiv.2602.14645' target='_blank'>https://doi.org/10.48550/arXiv.2602.14645</a> </p>") 
+          )
         )
       )
     )
@@ -221,7 +225,7 @@ model3Server <- function(input, output, session) {
     # Added rowHeaderWidth = 100 to prevent "Strain 1" / "Strain 2" text clipping
     rhandsontable(rv$data_mu, 
                   rowHeaders = c("Strain 1", "Strain 2"), 
-                  colHeaders = c(HTML("C.I (Lower)"), HTML("μ<br/> (min<sup>-1</sup>)"), HTML("C.I (Upper)")),
+                  colHeaders = c(HTML("C.I (Lower)"), HTML("μ<br/> (h<sup>-1</sup>)"), HTML("C.I (Upper)")),
                   rowHeaderWidth = 100) %>% 
       hot_validate_numeric(col = c(1, 2, 3), min = 0)
   })
@@ -231,7 +235,7 @@ model3Server <- function(input, output, session) {
     # Generate dynamic row labels
     row_labs <- paste("Exp.#", 1:nrow(rv$data_k))
     
-    headers <- c("<b>Drug<br>concentration</b><br>(C)", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>k", "<br><small>C.I Upper</small>", "<br><small>C.I Lower</small>", "<b>Strain 2</b><br>k", "<br><small>C.I Upper</small>")
+    headers <- c("<b>Drug<br>concentration</b><br>", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>k", "<br><small>C.I Upper</small>", "<br><small>C.I Lower</small>", "<b>Strain 2</b><br>k", "<br><small>C.I Upper</small>")
     
     # Added rowHeaderWidth = 80 to prevent text clipping
     rhandsontable(rv$data_k, maxRows = 100, rowHeaders = row_labs, colHeaders = headers, rowHeaderWidth = 80) %>% 
@@ -243,7 +247,7 @@ model3Server <- function(input, output, session) {
   output$model3table_sf <- renderRHandsontable({
     req(rv$data_sf)
     row_labs <- paste("Exp.#", 1:nrow(rv$data_sf))
-    headers <- c("<b>Drug<br>concentration</b><br>(C)", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>SF", "<br><small>C.I High</small>", "<br><small>C.I Low</small>", "<b>Strain 2</b><br>SF", "<br><small>C.I High</small>")
+    headers <- c("<b>Drug<br>concentration</b><br>", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>SF", "<br><small>C.I High</small>", "<br><small>C.I Low</small>", "<b>Strain 2</b><br>SF", "<br><small>C.I High</small>")
     
     # Added rowHeaderWidth = 80 to prevent text clipping
     rhandsontable(rv$data_sf, maxRows = 100, rowHeaders = row_labs, colHeaders = headers, rowHeaderWidth = 80) %>% 
