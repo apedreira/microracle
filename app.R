@@ -219,7 +219,6 @@ ui <- navbarPage(
             tags$tr(
               tags$th("Project"),
               tags$th("Description"),
-              tags$th("Authors"),
               tags$th("Reference"),
               tags$th("Access")
             )
@@ -229,8 +228,7 @@ ui <- navbarPage(
             tags$tr(
               tags$td(tags$strong("Carvacrol sub-MIC")),
               tags$td(HTML("Data & Model to predict Carvacrol inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
-              tags$td("Pedreira et al. (IIM-CSIC)"),
-              tags$td(tags$a(href = "https://doi.org/10.1016/j.jfoodeng.2023.111734", target = "_blank", "Journal of Food Engineering")),
+              tags$td("Pedreira et al. (IIM-CSIC)", tags$br(),tags$a(href = "https://doi.org/10.1016/j.jfoodeng.2023.111734", target = "_blank", "Journal of Food Engineering")),
               tags$td(
                 actionButton("go_mod1", "Open Model", class = "btn-outline-info btn-sm",
                              onclick = "eval(\"$('#navbar a[data-value=\\\"Model 1\\\"]').tab('show')\")")
@@ -240,8 +238,7 @@ ui <- navbarPage(
             tags$tr(
               tags$td(tags$strong("DDAC sub-MIC")),
               tags$td(HTML("Data & Model to predict DDAC inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
-              tags$td("Pedreira et al. (IIM-CSIC)"),
-              tags$td(tags$a(href = "https://doi.org/10.3389/fmicb.2022.758237", target = "_blank", "Frontiers in Microbiology")),
+              tags$td("Pedreira et al. (IIM-CSIC)", tags$br(), tags$a(href = "https://doi.org/10.3389/fmicb.2022.758237", target = "_blank", "Frontiers in Microbiology")),
               tags$td(
                 actionButton("go_mod2", "Open Model", class = "btn-outline-info btn-sm",
                              onclick = "eval(\"$('#navbar a[data-value=\\\"Model 2\\\"]').tab('show')\")")
@@ -251,8 +248,7 @@ ui <- navbarPage(
             tags$tr(
               tags$td(tags$strong("Selection & Extinction")),
               tags$td("Analysis of competitive strain dynamics under cyclic treatments based on growth-kill trade-offs."),
-              tags$td("Martínez-López et al. (IIM-CSIC / BAM)"),
-              tags$td(tags$a(href = "https://arxiv.org/abs/2602.14645", target = "_blank", "arXiv (Preprint with Theory)")),
+              tags$td("Martínez-López et al. (IIM-CSIC / BAM)", tags$br(),tags$a(href = "https://arxiv.org/abs/2602.14645", target = "_blank", "arXiv (Preprint with Theory)")),
               tags$td(
                 actionButton("go_mod3", "Open Analysis", class = "btn-outline-info btn-sm")
               )
@@ -262,7 +258,15 @@ ui <- navbarPage(
         
         hr(),
         h2("Authoring"),
-        p("Microracle originated as a joint initiative of the Bio2Eng and REVAL research groups at the IIM‑CSIC (Vigo, Spain):"),
+        p(
+          "Microracle originated as a joint initiative of the ",
+          tags$a(href = "https://bio2eng.csic.es", target = "_blank", "Bio2Eng"),
+          " and ",
+          tags$a(href = "https://iim.csic.es/en/research/all-groups/recycling-and-valorization-waste-materials", target = "_blank", "REVAL"),
+          " research groups at the Spanish National Research Council (",
+          tags$a(href = "https://www.csic.es/en/csic", target = "_blank", "IIM-CSIC"),
+          "):"
+        ),
         
         tags$div(
           tags$ul(
