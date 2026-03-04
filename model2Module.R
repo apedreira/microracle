@@ -3,7 +3,7 @@ library(shinycssloaders)
 model2UI <- function() {
   tabPanel(
     title =  "DDAC at sub-MIC concentrations",
-    value = "model2",
+    value = "DDAC_SubMIC",
     sidebarLayout(
       sidebarPanel(
         fluidRow(

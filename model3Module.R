@@ -12,7 +12,7 @@ library(shinyalert)
 model3UI <- function() {
   tabPanel(
     title = "Selection & Extinction Planes", 
-    value = "model3",                         
+    value = "PEplane",                         
     useShinyjs(),
     
     tags$head(

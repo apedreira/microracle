@@ -330,15 +330,16 @@ server <- function(input, output, session) {
   model3Server(input, output, session)
   
   # --- NAVIGATION FROM HOME BUTTONS ---
-  observeEvent(input$go_mod3, {
-    updateNavbarPage(session, "navbar", selected = "model3")
-  })
   observeEvent(input$go_mod1, {
-    updateNavbarPage(session, "navbar", selected = "model1") # Asumiendo que el value es "model1"
+    updateNavbarPage(session, "navbar", selected = "Carvacrol_SubMIC") 
   })
   observeEvent(input$go_mod2, {
-    updateNavbarPage(session, "navbar", selected = "model2") # Asumiendo que el value es "model2"
+    updateNavbarPage(session, "navbar", selected = "DDAC_SubMIC") 
   })
+  observeEvent(input$go_mod3, {
+    updateNavbarPage(session, "navbar", selected = "PEplane")
+  })
+
   # ---------------------------------------
   
   # URL Parsing Logic

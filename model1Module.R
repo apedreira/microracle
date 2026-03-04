@@ -3,7 +3,7 @@ library(shinycssloaders)
 model1UI <- function() {
   tabPanel(
     title = "Carvacrol at sub-MIC concentrations", 
-    value = "model1",                         
+    value = "Carvacrol_SubMIC",                         
     sidebarLayout(
       sidebarPanel(
         fluidRow(
