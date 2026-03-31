@@ -54,6 +54,16 @@ model3UI <- function() {
             background-color: #f0f0f0; 
             border-bottom: 1px solid #ccc;
         }
+        
+        /* --- PARAM DESCRIPTION STYLES --- */
+        .param-desc {
+          display: block;
+          color: #6c757d;
+          font-size: 0.78em;
+          margin-top: -4px;
+          margin-bottom: 4px;
+          line-height: 1.3;
+        }
       "))
     ),
     
@@ -61,14 +71,11 @@ model3UI <- function() {
       sidebarPanel(
         fluidRow(
           column(12,
-                 div(id = "tip_model3Mode",
-                     radioButtons("model3Mode", "Plot mode:",
-                                  c("By Kill rate (k)" = "by_k", 
-                                    "By Survival fraction (SF)" = "by_SF"),
-                                  inline = TRUE
-                     )
-                 ),
-                 bsTooltip("tip_model3Mode", "Choose plotting mode", "bottom", options = list(container = "body"))
+                 radioButtons("model3Mode", "Plot mode:",
+                              c("By Kill rate (k)" = "by_k", 
+                                "By Survival fraction (SF)" = "by_SF"),
+                              inline = TRUE
+                 )
           ),
           column(12,
                  align = "center", style = "margin-bottom: 20px;",
@@ -86,52 +93,50 @@ model3UI <- function() {
             title = tags$span(icon("flask"), "Experimental parameters"),
             br(),
             fluidRow(
-              column(4, 
-                     div(id = "tip_X_0",
-                         textInput("X_0", HTML("X<span class='supsub'><br/>0</span> (CFUs/mL)"), width = "100%")
-                     ),
-                     bsTooltip("tip_X_0", "Initial population (CFUs/mL)", "right", options = list(container = "body"))
+              
+              # --- Row 1: X_0 and K ---
+              column(6,
+                     tags$label(HTML("X<span class='supsub'><br/>0</span>"), class = "control-label"),
+                     tags$small("Initial population (CFUs/mL)", class = "param-desc"),
+                     textInput("X_0", label = NULL, width = "100%")
               ),
-              column(4, 
-                     div(id = "tip_K",
-                         textInput("K", HTML("K (CFUs/mL)"), width = "100%")
-                     ),
-                     bsTooltip("tip_K", "Carrying capacity (CFUs/mL)", "right", options = list(container = "body"))
+              column(6,
+                     tags$label("K", class = "control-label"),
+                     tags$small("Carrying capacity (CFUs/mL)", class = "param-desc"),
+                     textInput("K", label = NULL, width = "100%")
               ),
               
-              column(4, 
-                     div(id = "tip_X_g",
-                         textInput("X_g", HTML("X<span class='supsub'>e<br/></span> (CFUs/mL)"), width = "100%")
-                     ),
-                     bsTooltip("tip_X_g", "Extinction limit (CFUs/mL)", "right", options = list(container = "body"))
+              # --- Row 2: X_e and r_0 ---
+              column(6,
+                     tags$label(HTML("X<span class='supsub'>e<br/></span>"), class = "control-label"),
+                     tags$small("Extinction limit (CFUs/mL)", class = "param-desc"),
+                     textInput("X_g", label = NULL, width = "100%")
               ),
-              column(4, 
-                     div(id = "tip_r_0",
-                         numericInput("r_0", HTML("T:W<span class='supsub'><br/>0</span> (-)"), value = NULL, step = 0.01, width = "100%")
-                     ),
-                     bsTooltip("tip_r_0", "Initial mixing ratio (Strain 1 : Strain 2)", "right", options = list(container = "body"))
-              ),
-              
-              column(4, 
-                     div(id = "tip_T_g",
-                         numericInput("T_g", HTML("t<span class='supsub'><br/>g</span> (min)"), value = NULL, min = 1, width = "100%")
-                     ),
-                     bsTooltip("tip_T_g", "Duration of growth periods", "right", options = list(container = "body"))
-              ),
-              column(4, 
-                     div(id = "tip_D",
-                         numericInput("D", HTML("D (-)"), value = NULL, step = 1, min = 1, width = "100%")
-                     ),
-                     bsTooltip("tip_D", "Dilution factor (1/value)", "right", options = list(container = "body"))
+              column(6,
+                     tags$label(HTML("T:W<span class='supsub'><br/>0</span> (-)"), class = "control-label"),
+                     tags$small("Initial mixing ratio (Strain 1 : Strain 2)", class = "param-desc"),
+                     numericInput("r_0", label = NULL, value = NULL, step = 0.01, width = "100%")
               ),
               
-              column(4,
+              # --- Row 3: T_g and D ---
+              column(6,
+                     tags$label(HTML("t<span class='supsub'><br/>g</span>"), class = "control-label"),
+                     tags$small("Duration of growth periods (minutes)", class = "param-desc"),
+                     numericInput("T_g", label = NULL, value = NULL, min = 1, width = "100%")
+              ),
+              column(6,
+                     tags$label("D (-)", class = "control-label"),
+                     tags$small("Dilution factor (1/value)", class = "param-desc"),
+                     numericInput("D", label = NULL, value = NULL, step = 1, min = 1, width = "100%")
+              ),
+              
+              # --- Row 4: T_k (conditional) ---
+              column(6,
                      conditionalPanel(
                        condition = "input.model3Mode == 'by_k'",
-                       div(id = "tip_T_k",
-                           numericInput("T_k", HTML("t<span class='supsub'><br/>k</span> (min)"), value = NULL, min = 1, width = "100%")
-                       ),
-                       bsTooltip("tip_T_k", "Duration of killing periods", "right", options = list(container = "body"))
+                       tags$label(HTML("t<span class='supsub'><br/>k</span>"), class = "control-label"),
+                       tags$small("Duration of killing periods (minutes)", class = "param-desc"),
+                       numericInput("T_k", label = NULL, value = NULL, min = 1, width = "100%")
                      )
               )
             )
@@ -140,22 +145,38 @@ model3UI <- function() {
           tabPanel(
             title = tags$span(icon("bacteria"), "Bacterial traits"),
             br(),
+            
+            # --- Growth rate block ---
+            tags$small(
+              "Confidence Intervals (C.I) are optional. If omitted or illogical, the error bars will be ignored during calculation and plotting.",
+              class = "param-desc"
+            ),
             div(
               h5("Growth rate (μ)", style = "display:inline-block; font-weight: bold; color: #31708f;"),
               actionLink("help_mu", "", icon = icon("info-circle"), style = "margin-left: 5px; color: #31708f;")
             ),
             rHandsontableOutput("model3table_mu", height = "100px"),
             
+            # --- Kill rates / Survival fractions blocks (dynamic) ---
             uiOutput("model3_dynamicTable_k"),
             uiOutput("model3_dynamicTable_sf")
           )
+        ),
+        
+        # --- DOWNLOADS (AT THE BOTTOM OF SIDEBAR) ---
+        hr(),
+        div(align = "center",
+            downloadButton("download_rcode", "Download Data & Code (.R)", class = "btn-info", style = "width: 80%;")
         )
       ), 
       
       mainPanel(
         tabsetPanel(
-          tabPanel("Results (Selection & Extinction)", 
-                   withSpinner(plotOutput("plot_results", height = "750px"))
+          tabPanel("Results (Selection & Extinction)",
+                   # ACTUALIZADO: withSpinner con el GIF personalizado
+                   withSpinner(plotOutput("plot_results", height = "750px"), 
+                               image = "https://github.com/apedreira/microracle/blob/main/var/img/customLoading.gif?raw=true"),
+                   br()
           ),
           tabPanel(
             "Reference", HTML("<br> <p>
@@ -222,7 +243,6 @@ model3Server <- function(input, output, session) {
   # --- TABLE RENDERING ---
   output$model3table_mu <- renderRHandsontable({
     req(rv$data_mu)
-    # Added rowHeaderWidth = 100 to prevent "Strain 1" / "Strain 2" text clipping
     rhandsontable(rv$data_mu, 
                   rowHeaders = c("Strain 1", "Strain 2"), 
                   colHeaders = c(HTML("C.I (Lower)"), HTML("μ<br/> (h<sup>-1</sup>)"), HTML("C.I (Upper)")),
@@ -232,12 +252,9 @@ model3Server <- function(input, output, session) {
   
   output$model3table_k <- renderRHandsontable({
     req(rv$data_k)
-    # Generate dynamic row labels
     row_labs <- paste("Exp.#", 1:nrow(rv$data_k))
-    
     headers <- c("<b>Drug<br>concentration</b><br>", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>k", "<br><small>C.I Upper</small>", "<br><small>C.I Lower</small>", "<b>Strain 2</b><br>k", "<br><small>C.I Upper</small>")
     
-    # Added rowHeaderWidth = 80 to prevent text clipping
     rhandsontable(rv$data_k, maxRows = 100, rowHeaders = row_labs, colHeaders = headers, rowHeaderWidth = 80) %>% 
       hot_cols(halign = "center") %>% 
       hot_col(col=1:7, type="text") %>% 
@@ -249,7 +266,6 @@ model3Server <- function(input, output, session) {
     row_labs <- paste("Exp.#", 1:nrow(rv$data_sf))
     headers <- c("<b>Drug<br>concentration</b><br>", "<br><small>C.I Lower</small>", "<b>Strain 1</b><br>SF", "<br><small>C.I High</small>", "<br><small>C.I Low</small>", "<b>Strain 2</b><br>SF", "<br><small>C.I High</small>")
     
-    # Added rowHeaderWidth = 80 to prevent text clipping
     rhandsontable(rv$data_sf, maxRows = 100, rowHeaders = row_labs, colHeaders = headers, rowHeaderWidth = 80) %>% 
       hot_cols(halign = "center") %>% 
       hot_col(col=1:7, type="text") %>% 
@@ -266,7 +282,6 @@ model3Server <- function(input, output, session) {
   })
   
   # --- HELP INFORMATION MODALS ---
-  
   observeEvent(input$help_mu, {
     shinyalert(
       title = "Info: Growth Rate (μ)",
@@ -348,16 +363,8 @@ model3Server <- function(input, output, session) {
       
       fn <- function(x) as.numeric(as.character(x))
       fixed_palette <- c(
-        "#1B4F72",  # Dark blue
-        "#F1C40F",  # Intense yellow
-        "#7D3C98",  # Dark purple
-        "#17A589",  # Teal green
-        "#C0392B",  # Strong red
-        "#85C1E9",  # Light blue
-        "#196F3D",  # Dark green
-        "#F39C12",  # Orange
-        "#A569BD",  # Medium lilac
-        "#E6B0AA"   # Light pink
+        "#1B4F72", "#F1C40F", "#7D3C98", "#17A589", "#C0392B", 
+        "#85C1E9", "#196F3D", "#F39C12", "#A569BD", "#E6B0AA"
       )
       nC <- nrow(clean_dynamic)
       colors_vec <- if (nC <= length(fixed_palette)) fixed_palette[1:nC] else rep(fixed_palette, length.out = nC)
@@ -390,49 +397,36 @@ model3Server <- function(input, output, session) {
     } else { rv$plot_inputs <- NULL }
   })
   
-  # --- CUSTOM LEGEND HELPER FUNCTION (With Titles) ---
+  # --- CUSTOM LEGEND HELPER FUNCTION ---
   draw_legend_custom <- function(labels, colors, title_local, is_first = FALSE) {
-    par(mar = c(0, 1, 0, 0)) # Minimum margins
+    par(mar = c(0, 1, 0, 0))
     plot(0, 0, type = "n", axes = FALSE, xlim = c(0, 100), ylim = c(0, 100), xlab = "", ylab = "")
     
-    # 1. MAIN TITLE "Legend" (Only for the first panel)
     if (is_first) {
       text(x = 0, y = 92, labels = "Legend", font = 2, cex = 1.8, adj = 0)
     }
-    
-    # 2. SPECIFIC SUBTITLE
-    # Vertically aligned: lower if "Legend" is present, otherwise maintains relative height to align both panels.
     y_subtitle <- 72
     text(x = 0, y = y_subtitle, labels = title_local, font = 1, cex = 1.2, adj = 0)
     
     n <- length(labels)
     if (n == 0) return()
     
-    # 3. COLOR KEY TABLE
     cols_num <- 3 
     rows_num <- ceiling(n / cols_num)
     x_starts <- c(2, 35, 68)
-    
-    # Start drawing below the subtitle
     y_items_start <- 55 
-    y_step <- 15 # Space between rows
-    
+    y_step <- 15 
     box_w <- 5
     
     for (i in 1:n) {
       c_idx <- (i - 1) %% cols_num + 1
       r_idx <- ceiling(i / cols_num)
-      
-      # Calculate Y coordinate moving down from y_items_start
       y <- y_items_start - (r_idx - 1) * y_step
       
-      if(y < 0) break # Avoid plotting outside the frame if items are too many
+      if(y < 0) break 
       
       x <- x_starts[c_idx]
-      
-      # Solid rectangle
       rect(x, y - 2, x + box_w, y + 4, col = colors[i], border = NA)
-      # Label text
       text(x = x + box_w + 3, y = y, labels = labels[i], col = "black", cex = 1.1, adj = 0)
     }
   }
@@ -441,9 +435,6 @@ model3Server <- function(input, output, session) {
   output$plot_results <- renderPlot({
     req(rv$plot_inputs)
     
-    # Layout 4 zones: 
-    # 1,2: Plots (82% height)
-    # 3,4: Legends (18% height) -> Extra space for titles
     layout(matrix(c(1, 2, 3, 4), nrow = 2, byrow = TRUE), heights = c(0.82, 0.18))
     
     tryCatch({
@@ -455,12 +446,9 @@ model3Server <- function(input, output, session) {
       }
       
       if (!is.null(leg_data)) {
-        # Panel 3 (Left): Concentrations Legend + "Legend" Title
         draw_legend_custom(leg_data$sel_leg$lbl, leg_data$sel_leg$col, 
                            title_local = "Drug concentration (arbitrary units)", 
                            is_first = TRUE)
-        
-        # Panel 4 (Right): Regions Legend + Specific Title (No "Legend" main title)
         draw_legend_custom(leg_data$ext_leg$lbl, leg_data$ext_leg$col, 
                            title_local = "Extinction/ Selection areas", 
                            is_first = FALSE)
@@ -472,6 +460,9 @@ model3Server <- function(input, output, session) {
     
     par(mfrow = c(1, 1), mar = c(5, 4, 4, 2) + 0.1)
   })
+  
+  # --- DONWLOAD DATA (.TSV) & OFFLINE MODEL (.R)  ---
+  output$download_rcode <- downloadZipSEplanes(input, rv)
   
   observeEvent(input$reset, { rv$data_mu <- NULL; rv$plot_inputs <- NULL })
 }
