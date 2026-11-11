@@ -1,6 +1,10 @@
 dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T_g, T_k, K, D) {
   
-  msg <- "OK"
+  # No side effects: returns list(ok, msg, warnings, data_mu, data_dynamic) and
+  # the caller shows the error (msg) and the warnings to the user.
+  warnings <- character(0)
+  fail <- function(msg) list(ok = FALSE, msg = msg, warnings = warnings,
+                             data_mu = NULL, data_dynamic = NULL)
   
   # --- ROBUST CLEANING FUNCTION ---
   # Converts any input (scientific text, factors, lists) into a real numeric value
@@ -30,51 +34,43 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
   # ============================================================================
   
   if (is.na(T_g_val) || T_g_val <= 0) {
-    msg <- showNotification("The Duration of the growth periods (Tg) must be defined and Tg > 0", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The Duration of the growth periods (Tg) must be defined and Tg > 0"))
   }
   
   if (mode == 'by_k') {
     if (is.na(T_k_val) || T_k_val <= 0) {
-      msg <- showNotification("The Duration of the killing periods (Tk) must be defined and Tk > 0", type = "error")
-      return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+      return(fail("The Duration of the killing periods (Tk) must be defined and Tk > 0"))
     }
   }
   
   if (is.na(K_val) || K_val <= 0) {
-    msg <- showNotification("The Carrying capacity (K) must be defined and K > 0", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The Carrying capacity (K) must be defined and K > 0"))
   }
   
   if (is.na(r_0_val) || r_0_val <= 0) {
-    msg <- showNotification("The Initial mixing ratio (r0) must be defined and r0 > 0", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The Initial mixing ratio (r0) must be defined and r0 > 0"))
   }
   
   if (is.na(X_0_val) || X_0_val <= 0 || X_0_val >= K_val) {
-    msg <- showNotification("The Initial population (X0) must be defined and 0 < X0 < K", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The Initial population (X0) must be defined and 0 < X0 < K"))
   }
   
   if (is.na(D_val) || D_val <= 0) {
-    msg <- showNotification("The Dilution rate (D) must be defined and 0 < D <= 1", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The Dilution rate (D) must be defined and 0 < D <= 1"))
   }
   
   # ============================================================================
   # REQUIREMENT 1: X_g
   # ============================================================================
   if (is.na(X_g_val)) {
-    msg <- showNotification("The growth limit (X_g) must be defined", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The growth limit (X_g) must be defined"))
   }
   
   limit_s1 <- X_0_val / (1 + r_0_val)
   limit_s2 <- (r_0_val * X_0_val) / (1 + r_0_val)
   
   if (X_g_val <= 0 || X_g_val >= limit_s1 || X_g_val >= limit_s2) {
-    msg <- showNotification("The growth limit (X_g) must be defined and 0 < X_g < X_0/(1+r_0) AND 0 < X_g < r_0*X_0/(1 + r_0))", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("The growth limit (X_g) must be defined and 0 < X_g < X_0/(1+r_0) AND 0 < X_g < r_0*X_0/(1 + r_0))"))
   }
   
   # ============================================================================
@@ -85,8 +81,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
   
   # Strain S1 Validation (Error)
   if (is.na(mu_S1) || mu_S1 <= 0) {
-    msg <- showNotification("Growth rate for Strain S1 (mu_S1) must be defined and mu_S1 > 0)", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("Growth rate for Strain S1 (mu_S1) must be defined and mu_S1 > 0)"))
   }
   
   # Confidence Intervals (CIs) Validation for S1 (Warning)
@@ -98,14 +93,13 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
   is_bad_s1 <- is.na(ci_s1_low) || is.na(ci_s1_high) || ci_s1_low > mu_S1 || mu_S1 > ci_s1_high
   
   if (has_ci_s1 && is_bad_s1) {
-    showNotification("Confidence intervals not provided (or invalid) for ci_mu_S1. Ignoring during plotting", type = "warning")
+    warnings <- c(warnings, "Confidence intervals not provided (or invalid) for ci_mu_S1. Ignoring during plotting")
     clean_mu[1, c(1,3)] <- NA # Clear partial or erroneous data
   }
   
   # Strain S2 Validation (Error)
   if (is.na(mu_S2) || mu_S2 <= 0 || mu_S2 > mu_S1) {
-    msg <- showNotification("Growth rate for Strain S2 (mu_S2) must be defined and 0 < mu_S2 <= mu_S1)", type = "error")
-    return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+    return(fail("Growth rate for Strain S2 (mu_S2) must be defined and 0 < mu_S2 <= mu_S1)"))
   }
   
   # Confidence Intervals (CIs) Validation for S2 (Warning)
@@ -116,7 +110,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
   is_bad_s2 <- is.na(ci_s2_low) || is.na(ci_s2_high) || ci_s2_low > mu_S2 || mu_S2 > ci_s2_high
   
   if (has_ci_s2 && is_bad_s2) {
-    showNotification("Confidence intervals not provided (or invalid) for ci_mu_S2. Ignoring during plotting", type = "warning")
+    warnings <- c(warnings, "Confidence intervals not provided (or invalid) for ci_mu_S2. Ignoring during plotting")
     clean_mu[2, c(1,3)] <- NA
   }
   
@@ -138,8 +132,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     count_k2 <- sum(!is.na(clean_k[[6]]))
     
     if (count_C != count_k1 || count_C != count_k2 || count_C == 0) {
-      msg <- showNotification("Provide killing rates (k) and antimicrobial concentrations (C) for each of the experiments and strains", type = "error")
-      return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+      return(fail("Provide killing rates (k) and antimicrobial concentrations (C) for each of the experiments and strains"))
     }
     
     valid_rows <- (!is.na(clean_k[[1]]) & clean_k[[1]] != "") & !is.na(clean_k[[3]]) & !is.na(clean_k[[6]])
@@ -147,8 +140,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     
     # 4.2. COMPARATIVE LOGIC: k_S2 <= k_S1
     if (any(df_check[[6]] > df_check[[3]])) {
-      msg <- showNotification("The kill rate for strain S1 should be higher or equal than for S2 in all the experiments", type = "error")
-      return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+      return(fail("The kill rate for strain S1 should be higher or equal than for S2 in all the experiments"))
     }
     
     # 4.3. Confidence Intervals (CIs) (Warning)
@@ -167,7 +159,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     bad_s2_idx <- which(has_ci_s2 & is_bad_s2)
     
     if (length(bad_s1_idx) > 0 || length(bad_s2_idx) > 0) {
-      showNotification("Ignoring killing rate confidence intervals (invalid or incomplete values).", type = "warning")
+      warnings <- c(warnings, "Ignoring killing rate confidence intervals (invalid or incomplete values).")
       if(length(bad_s1_idx) > 0) clean_k[bad_s1_idx, c(2,4)] <- NA
       if(length(bad_s2_idx) > 0) clean_k[bad_s2_idx, c(5,7)] <- NA
     }
@@ -185,8 +177,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     count_sf2 <- sum(!is.na(clean_sf[[6]]))
     
     if (count_C != count_sf1 || count_C != count_sf2 || count_C == 0) {
-      msg <- showNotification("Provide survival fraction (SF) and antimicrobial concentrations (C) for each of the experiments and strains", type = "error")
-      return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+      return(fail("Provide survival fraction (SF) and antimicrobial concentrations (C) for each of the experiments and strains"))
     }
     
     valid_rows <- (!is.na(clean_sf[[1]]) & clean_sf[[1]] != "") & !is.na(clean_sf[[3]]) & !is.na(clean_sf[[6]])
@@ -194,8 +185,7 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     
     # 5.2. COMPARATIVE LOGIC: sf_S1 <= sf_S2
     if (any(df_check[[3]] > df_check[[6]])) {
-      msg <- showNotification("The survival fraction for strain S1 should be lower or equal than for S2 in all the experiments", type = "error")
-      return(list(msg = msg, data_mu = clean_mu, data_dynamic = NULL))
+      return(fail("The survival fraction for strain S1 should be lower or equal than for S2 in all the experiments"))
     }
     
     # 5.3. Confidence Intervals (CIs) (Warning)
@@ -211,12 +201,12 @@ dataValidatorModel3 <- function(data_mu, data_k, data_sf, mode, X_0, X_g, r_0, T
     bad_s2_idx <- which(has_ci_s2 & is_bad_s2)
     
     if (length(bad_s1_idx) > 0 || length(bad_s2_idx) > 0) {
-      showNotification("Ignoring survival fraction confidence intervals (invalid or incomplete values).", type = "warning")
+      warnings <- c(warnings, "Ignoring survival fraction confidence intervals (invalid or incomplete values).")
       if(length(bad_s1_idx) > 0) clean_sf[bad_s1_idx, c(2,4)] <- NA
       if(length(bad_s2_idx) > 0) clean_sf[bad_s2_idx, c(5,7)] <- NA
     }
     clean_dynamic <- clean_sf
   }
   
-  return(list(msg = "OK", data_mu = clean_mu, data_dynamic = clean_dynamic))
+  list(ok = TRUE, msg = NULL, warnings = warnings, data_mu = clean_mu, data_dynamic = clean_dynamic)
 }

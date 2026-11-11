@@ -1,4 +1,4 @@
-### Model_SubMIC_Carvacrol: (Pedreira et al. 20220) A predictive microbiology
+### Model_SubMIC_Carvacrol: (Pedreira et al. 2024) A predictive microbiology
 ### model to determine the effect of subinhibitory concentrations of Carvacrol
 ### on the foodborne species E. coli and B. cereus (single experiment).
 

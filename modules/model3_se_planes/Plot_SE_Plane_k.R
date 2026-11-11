@@ -26,7 +26,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     apply(sapply(col, col2rgb)/255, 2, function(x) rgb(x[1], x[2], x[3], alpha=alpha))  
   }
   
-  # Variables para almacenar info de leyendas
+  # Variables to store the legend info
   sel_leg_info <- NULL
   ext_leg_info <- NULL
   
@@ -49,13 +49,13 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     plot(c(0, 1), c(0, 1), type="n", xlab="", ylab="", xlim=c(0, 1), ylim=c(0, 1), 
          axes=FALSE, frame.plot=TRUE, xaxs="i", yaxs="i")
     
-    # TITULO AÑADIDO
+    # Plot title
     title(main="Selection plane", cex.main=1.5)
     title(xlab="Fitness cost", ylab="Survival advantage", cex.lab=1.7)
     
     lines(seq(0, 1, length.out=100), seq(0, 1, length.out=100), col="black", lwd=2)
     
-    # --- ETIQUETAS ACTIVADAS PARA SELECTION PLANE ---
+    # --- LABELS ENABLED FOR THE SELECTION PLANE ---
     text(0.02, 0.98, expression(paste("S2 is selected")), cex=1.5, adj=c(0, 1))
     text(0.98, 0.02, expression(paste("S1 is selected")), cex=1.5, adj=c(1, 0))
     text(0.5, 0.55, "Equilibrium", cex=1.5, srt=45, adj=c(0.5, 0))
@@ -85,7 +85,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
       points(FC, SA, pch=15, col=curr_col, cex=2)
     }
     
-    # EJES Y CAJA AL FINAL
+    # AXES AND BOX AT THE END
     axis(1, at=seq(0, 1, 0.2), labels=seq(0, 1, 0.2), cex.axis=1.5)
     axis(2, at=seq(0, 1, 0.2), labels=seq(0, 1, 0.2), cex.axis=1.5)
     box()
@@ -98,7 +98,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
   # ===========================================================================
   if (type %in% c("extinction", "all")) {
     
-    # Paleta
+    # Palette
     c_s1_iso <- "#6baed6"; c_s1_cmp <- "#9ecae1"; c_s1_sel <- "#eff3ff"
     c_s2_iso <- "#fb6a4a"; c_s2_cmp <- "#fc9272"; c_s2_sel <- "#fee5d9"
     c_t_iso  <- "#756bb1"; c_t_cmp  <- "#bcbddc"
@@ -126,10 +126,10 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     x <- seq(xm, xM, length.out=100); y <- seq(ym, yM, length.out=100)
     
     # -------------------------------------------------------------------------
-    # CAPA 1: POLÍGONOS (FONDO)
+    # LAYER 1: POLYGONS (BACKGROUND)
     # -------------------------------------------------------------------------
     
-    # 1.1 Polígonos Isolation
+    # 1.1 Isolation polygons
     xaux <- ext_S1_isol; yaux <- ext_S2_isol
     polygon(c(xaux, xM, xM, xaux), c(ym, ym, min(ext_S2, yaux), min(ext_S2, yaux)), col=c_s1_iso, border=NA)
     polygon(c(xm, min(ext_S1, xaux), min(ext_S1, xaux), xm), c(yaux, yaux, yM, yM), col=c_s2_iso, border=NA)
@@ -137,7 +137,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     
     lgd <- c(); fill_cols <- c()
     
-    # 1.2 Polígonos Competition
+    # 1.2 Competition polygons
     if (ext_S1 < ext_S1_isol && ext_S2 < ext_S2_isol) {
       lgd <- c('S1 Extinction (Isolation)', 'S2 Extinction (Isolation)', 'Total Extinction (Isolation)', 'S1 Extinction (Competition)', 'S2 Extinction (Competition)', 'Total Extinction (Competition)')
       fill_cols <- c(c_s1_iso, c_s2_iso, c_t_iso, c_s1_cmp, c_s2_cmp, c_t_cmp)
@@ -168,7 +168,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
       xaux <- ext_S1_isol; yaux <- ext_S2_isol
     }
     
-    # 1.3 Polígonos Selección
+    # 1.3 Selection polygons
     yint_S1 <- xaux * (1 - FC) + FC * log(D) / T_k
     xint_S2 <- (yaux - log(D) * FC / T_k) / (1 - FC)
     xint <- min(xaux, xint_S2)
@@ -184,14 +184,14 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     }
     
     # -------------------------------------------------------------------------
-    # CAPA 2: LÍNEAS (ENCIMA DE POLÍGONOS)
+    # LAYER 2: LINES (ON TOP OF THE POLYGONS)
     # -------------------------------------------------------------------------
     
-    # 2.1 Líneas Isolation (Sólidas)
+    # 2.1 Isolation lines (solid)
     lines(x, rep(ext_S2_isol, 100), col="black", lwd=2)
     lines(rep(ext_S1_isol, 100), y, col="black", lwd=2)
     
-    # 2.2 Líneas Competition (Discontinuas)
+    # 2.2 Competition lines (dashed)
     if (ext_S1 < ext_S1_isol && ext_S2 < ext_S2_isol) {
       lines(x, rep(ext_S2, 100), col="black", lty=2, lwd=1)
       lines(rep(ext_S1, 100), y, col="black", lty=2, lwd=1)
@@ -201,11 +201,11 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
       lines(x, rep(ext_S2, 100), col="black", lty=2, lwd=1)
     }
     
-    # 2.3 Línea de Equilibrio
+    # 2.3 Equilibrium line
     lines(xx, xx * (1 - FC) + FC * log(D) / T_k, col="black", lwd=2)
     
     # -------------------------------------------------------------------------
-    # CAPA 3: DATOS Y TEXTO
+    # LAYER 3: DATA AND TEXT
     # -------------------------------------------------------------------------
     slope_eq <- 1 - FC
     angle_eq <- atan(slope_eq) * 180 / pi
@@ -213,7 +213,7 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     mid_y <- mid_x * slope_eq + (FC * log(D) / T_k)
     text(mid_x, mid_y, "Equilibrium", cex=1.2, srt=angle_eq, adj=c(0.5, -0.5))
     
-    # --- ETIQUETAS "S1/S2 SELECTED" ELIMINADAS EN EXTINCTION ---
+    # --- "S1/S2 SELECTED" LABELS REMOVED IN THE EXTINCTION PLANE ---
     
     for (iC in 1:nC) {
       points(k_S1[iC], k_S2[iC], pch=15, col=cols[iC], cex=2)
@@ -227,12 +227,12 @@ Plot_SE_Plane_k <- function(inputs, type = "all") {
     }
     
     # -------------------------------------------------------------------------
-    # CAPA 4: MARCO Y EJES (AL FINAL)
+    # LAYER 4: FRAME AND AXES (AT THE END)
     # -------------------------------------------------------------------------
     axis(1, cex.axis=1.5); axis(2, cex.axis=1.5)
     box()
     
-    # Leyendas
+    # Legends
     lgd <- c(lgd, "S1 Selection", "S2 Selection")
     fill_cols <- c(fill_cols, c_s1_sel, c_s2_sel)
     ext_leg_info <- list(lbl=lgd, col=fill_cols)

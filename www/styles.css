@@ -1,0 +1,187 @@
+/* ==========================================================================
+   MICRORACLE - global styles (loaded once from app.R)
+   ========================================================================== */
+
+/* --- Navbar Global Appearance --- */
+.navbar-default {
+    background-color: black !important;
+    box-sizing: border-box;
+    border: none;
+}
+.navbar-brand {
+    margin-top: 4px;
+}
+.navbar-nav {
+    float: none !important;
+}
+.navbar-nav > li {
+    float: left; /* Align standard tabs to the left */
+}
+.navbar-nav > li > a {
+    font-weight: 500;
+    box-sizing: border-box;
+}
+
+/* --- Interactive States & Indicators --- */
+.navbar-nav > li.active > a,
+.navbar-nav > li.dropdown:hover > a,
+.navbar-nav > li > a:hover {
+    border-bottom: 10px solid #0fc1a3;
+    background-color: #333;
+}
+
+/* Disable bottom border for the last item (Social Icon) */
+.navbar-nav > li:nth-last-child(1) > a:hover,
+.navbar-nav > li:nth-last-child(1).active > a {
+    border-bottom: none !important;
+}
+
+/* --- Dropdown Menus --- */
+.dropdown-menu > li > a {
+    color: white !important;
+    background-color: black !important;
+}
+.dropdown-menu > li > a:hover {
+    border-left: 4px solid #0fc1a3;
+    background-color: #333 !important;
+    text-decoration: none;
+}
+
+/* --- Social Media Icons --- */
+.nav-item-icon {
+    float: right !important;
+}
+.nav-item-icon > a {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+.svgIcon {
+    filter: brightness(0) invert(1); /* Forces pure white color */
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    transition: opacity 0.2s ease;
+}
+.svgIcon:hover {
+    opacity: 0.8;
+}
+
+/* --- UI Components & Notifications --- */
+.shiny-notification {
+    position: fixed;
+    top: 50%;
+    left: 0%;
+    color: black;
+}
+.shiny-notification-warning { color: #8f6830; background-color: #fff3cd; }
+.shiny-notification-error   { color: #751f26; background-color: #f8d7da; }
+
+/* --- Typography & Form Utilities --- */
+label { margin-bottom: 10px; font-weight: bold; }
+.control-label { font-size: 110%; }
+.nobr { white-space: nowrap; }
+.supsub {
+    display: inline-block;
+    margin: -9em 0;
+    vertical-align: -0.55em;
+    line-height: 1.35em;
+    font-size: 70%;
+    text-align: left;
+}
+/* Species names of the preset selectors in italics */
+.species-choice input + span { font-style: italic; }
+
+/* Short description below a parameter label */
+.param-desc {
+    display: block;
+    color: #6c757d;
+    font-size: 0.78em;
+    margin-top: -4px;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+/* Logo of the Home title (black version of the navbar logo) */
+.home-logo {
+    width: 100%;
+    max-width: 420px;
+}
+
+/* --- About Table Styling --- */
+.about-table {
+    margin-top: 20px;
+    background-color: #1a1a1a;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.about-table th {
+    background-color: #333;
+    color: #0fc1a3;
+    padding: 12px !important;
+    text-transform: uppercase;
+    font-size: 0.85em;
+}
+.about-table td {
+    border-top: 1px solid #444 !important;
+    padding: 12px !important;
+    vertical-align: middle !important;
+}
+.table-hover tbody tr:hover {
+    background-color: #252525 !important;
+}
+
+/* ==========================================================================
+   Model 3: Selection & Extinction planes (sidebar tabs and tables)
+   ========================================================================== */
+.se-sidebar .nav-pills > li > a {
+    background-color: #f8f9fa;
+    color: #333 !important;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 0.9em;
+    text-align: center;
+}
+.se-sidebar .nav-pills > li > a:hover {
+    background-color: #e2e6ea;
+    border-color: #adb5bd;
+}
+.se-sidebar .nav-pills > li.active > a,
+.se-sidebar .nav-pills > li.active > a:focus,
+.se-sidebar .nav-pills > li.active > a:hover {
+    background-color: #0fc1a3 !important;
+    color: white !important;
+    border: 1px solid #0fc1a3;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.se-sidebar .nav-pills { display: flex; flex-wrap: wrap; }
+.se-sidebar .nav-pills > li { flex: 1; min-width: 100px; }
+.se-sidebar .nav-pills > li > a { margin: 2px; padding: 8px 5px; }
+
+.se-sidebar .handsontable th {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+
+/* ==========================================================================
+   Model 4: time-kill tables
+   ========================================================================== */
+/* Numeric cells are right-aligned by default (htNumeric) */
+.m4-tables .htCenter { text-align: center !important; }
+
+/* Loading animation of the outputs (canvas drawn by loading.js) */
+canvas.bacilli-loader {
+  display: block;
+  width: 340px;
+  max-width: 100%;
+  aspect-ratio: 680 / 520;
+  height: auto;
+  margin: 0 auto;
+}

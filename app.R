@@ -2,6 +2,7 @@
 ###  LIBRARIES   ###
 ####################
 
+# All the libraries used by the app and its modules are loaded here, once.
 library(shiny)
 library(plotly)
 library(rhandsontable)
@@ -9,24 +10,50 @@ library(shinythemes)
 library(shinyBS)
 library(shinyjs)
 library(shinyalert)
+library(shinycssloaders)
+library(deSolve)
+library(zip)
 
 ####################################
 ### AUXILIARY FUNCTIONS AND CODE ###
 ####################################
 
-source("dataValidator.R")
-source("dataValidatorModel3.R")
-source("carFun.R")
-source("ddacFun.R")
-source("model1Module.R")
-source("model2Module.R")
-source("model3Module.R")
-source("presetDataCar.R")
-source("presetDataDDAC.R")
-source("presetDataModel3.R")
-source("Plot_SE_Plane_k.R")
-source("Plot_SE_Plane_SF.R")
-source("downloadDataModel3.R")
+# Each model lives in its own folder under modules/; common/ holds the code
+# shared by several models
+source("modules/common/helpers.R")
+source("modules/common/dataValidator.R")
+
+# Model 1: Carvacrol sub-MIC
+source("modules/model1_carvacrol/carFun.R")
+source("modules/model1_carvacrol/presetDataCar.R")
+source("modules/model1_carvacrol/model1Module.R")
+
+# Model 2: DDAC sub-MIC
+source("modules/model2_ddac/ddacFun.R")
+source("modules/model2_ddac/presetDataDDAC.R")
+source("modules/model2_ddac/model2Module.R")
+
+# Model 3: Selection & Extinction planes
+# (SEplanes_Offline.R is not sourced: it is the standalone script of the download)
+source("modules/model3_se_planes/Plot_SE_Plane_k.R")
+source("modules/model3_se_planes/Plot_SE_Plane_SF.R")
+source("modules/model3_se_planes/presetDataModel3.R")
+source("modules/model3_se_planes/dataValidatorModel3.R")
+source("modules/model3_se_planes/downloadDataModel3.R")
+source("modules/model3_se_planes/model3Module.R")
+
+# Model 4: QACs–EOCs synergy (time-kill curves)
+source("modules/model4_timekill/timeKillFun.R")
+source("modules/model4_timekill/presetDataTimeKill.R")
+source("modules/model4_timekill/model4Module.R")
+
+# Model registry (after the modules, it references their ui/server functions)
+source("models.R")
+
+# Name of a person linked to their ORCID profile
+orcid_link <- function(name, orcid) {
+  tags$a(href = paste0("https://orcid.org/", orcid), target = "_blank", name)
+}
 
 
 ######################
@@ -55,9 +82,12 @@ ui <- navbarPage(
       tags$link(rel = "shortcut icon", href = "/icon.ico"),
       
       # 1. JAVASCRIPT: Inject Social Media icons at the end of the navigation bar
+      #    Added once when the page loads (not on 'shiny:connected', which fires
+      #    again on every reconnection and duplicated the icon).
       tags$script(HTML("
-        $(document).on('shiny:connected', function() {
-            var nav = $('.navbar-nav');
+        $(function() {
+            var nav = $('.navbar-nav').first();
+            if (nav.find('.nav-item-icon').length) return;
             
             // Raw HTML for social media icons
             var ghIcon = '<li class=\"nav-item-icon\"><a href=\"https://github.com/apedreira/microracle/\" target=\"_blank\"><img class=\"svgIcon\" src=\"github.svg\"></a></li>';
@@ -67,124 +97,11 @@ ui <- navbarPage(
         });
       ")),
       
-      # 2. CSS STYLES
-      tags$style(
-        HTML(
-          "
-    /* --- Navbar Global Appearance --- */
-    .navbar-default {
-        background-color: black !important;
-        box-sizing: border-box;
-        border: none;
-    }
-    .navbar-brand {
-        margin-top: 4px;
-    }
-    .navbar-nav { 
-        float: none !important; 
-    }
-    .navbar-nav > li { 
-        float: left; /* Align standard tabs to the left */
-    } 
-    .navbar-nav > li > a {
-        font-weight: 500;
-        box-sizing: border-box;
-    }
+      # 2. CSS STYLES (all the styles of the app, modules included)
+      tags$link(rel = "stylesheet", type = "text/css", href = "styles.css"),
 
-    /* --- Interactive States & Indicators --- */
-    .navbar-nav > li.active > a,
-    .navbar-nav > li.dropdown:hover > a,
-    .navbar-nav > li > a:hover {
-        border-bottom: 10px solid #0fc1a3;
-        background-color: #333; 
-    }
-    
-    /* Disable bottom border for the last item (Social Icon) */
-    .navbar-nav > li:nth-last-child(1) > a:hover,
-    .navbar-nav > li:nth-last-child(1).active > a {
-        border-bottom: none !important;
-    }
-
-    /* --- Dropdown Menus --- */
-    .dropdown-menu > li > a {
-        color: white !important;
-        background-color: black !important;
-    }
-    .dropdown-menu > li > a:hover {
-        border-left: 4px solid #0fc1a3;
-        background-color: #333 !important;
-        text-decoration: none;
-    }
-
-    /* --- Social Media Icons --- */
-    .nav-item-icon {
-        float: right !important;
-    }
-    .nav-item-icon > a {
-        padding-top: 15px !important;
-        padding-bottom: 15px !important;
-    }
-    .svgIcon {
-        filter: brightness(0) invert(1); /* Forces pure white color */
-        height: 25px;
-        width: 25px;
-        vertical-align: middle;
-        transition: opacity 0.2s ease;
-    }
-    .svgIcon:hover {
-        opacity: 0.8;
-    }
-
-    /* --- UI Components & Notifications --- */
-    .shiny-notification { 
-        position: fixed; 
-        top: 50%; 
-        left: 0%; 
-        color: black; 
-    }
-    .shiny-notification-warning { color: #8f6830; background-color: #fff3cd; }
-    .shiny-notification-error   { color: #751f26; background-color: #f8d7da; }
-    
-    /* --- Typography & Form Utilities --- */
-    label { margin-bottom: 10px; font-weight: bold; }
-    .control-label { font-size: 110%; }
-    .nobr { white-space: nowrap; }
-    .supsub { 
-        display: inline-block; 
-        margin: -9em 0; 
-        vertical-align: -0.55em; 
-        line-height: 1.35em; 
-        font-size: 70%; 
-        text-align: left; 
-    }
-    input[name='strainID'] + span { font-style: italic; }
-
-    /* --- About Table Styling --- */
-    .about-table { 
-        margin-top: 20px; 
-        background-color: #1a1a1a; 
-        color: white; 
-        border-radius: 8px; 
-        overflow: hidden; 
-    }
-    .about-table th { 
-        background-color: #333; 
-        color: #0fc1a3; 
-        padding: 12px !important; 
-        text-transform: uppercase; 
-        font-size: 0.85em; 
-    }
-    .about-table td { 
-        border-top: 1px solid #444 !important; 
-        padding: 12px !important; 
-        vertical-align: middle !important; 
-    }
-    .table-hover tbody tr:hover { 
-        background-color: #252525 !important; 
-    }
-    "
-        )
-      )
+      # 3. Loading animation of the outputs (see loading_spinner() in helpers.R)
+      tags$script(src = "loading.js")
     )
   ),
   
@@ -198,7 +115,7 @@ ui <- navbarPage(
       column(width = 2, ""),
       column(
         width = 8,
-        h1(class = "text-center","Microracle"),
+        h1(class = "text-center", img(src = "logo_black.png", alt = "Microracle", class = "home-logo")),
         
         h4(
           class = "text-center",
@@ -220,37 +137,8 @@ ui <- navbarPage(
               tags$th("Access")
             )
           ),
-          tags$tbody(
-            # Project: Carvacrol
-            tags$tr(
-              tags$td(tags$strong("Carvacrol sub-MIC")),
-              tags$td(HTML("Data & Model to predict Carvacrol inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
-              tags$td("Pedreira et al. (IIM-CSIC)", tags$br(),tags$a(href = "https://doi.org/10.1016/j.jfoodeng.2023.111734", target = "_blank", "Journal of Food Engineering")),
-              tags$td(
-                actionButton("go_mod1", "Try it!", class = "btn-outline-info btn-sm",
-                             onclick = "eval(\"$('#navbar a[data-value=\\\"Model 1\\\"]').tab('show')\")")
-              )
-            ),
-            # Project: DDAC
-            tags$tr(
-              tags$td(tags$strong("DDAC sub-MIC")),
-              tags$td(HTML("Data & Model to predict DDAC inactivation of <em>E. coli</em> and <em>B. cereus</em> at sub-MIC levels.")),
-              tags$td("Pedreira et al. (IIM-CSIC)", tags$br(), tags$a(href = "https://doi.org/10.3389/fmicb.2022.758237", target = "_blank", "Frontiers in Microbiology")),
-              tags$td(
-                actionButton("go_mod2", "Try it!", class = "btn-outline-info btn-sm",
-                             onclick = "eval(\"$('#navbar a[data-value=\\\"Model 2\\\"]').tab('show')\")")
-              )
-            ),
-            # Project: Selection Planes
-            tags$tr(
-              tags$td(tags$strong("Selection & Extinction")),
-              tags$td("Analysis of competitive strain dynamics under cyclic treatments based on growth-kill trade-offs."),
-              tags$td("Martínez-López et al. (IIM-CSIC / BAM)", tags$br(),tags$a(href = "https://arxiv.org/abs/2602.14645", target = "_blank", "arXiv (Preprint with Theory)")),
-              tags$td(
-                actionButton("go_mod3", "Try it!", class = "btn-outline-info btn-sm")
-              )
-            )
-          )
+          # One row per model of the registry (models.R)
+          tags$tbody(lapply(MODELS, model_home_row))
         ),
         
         hr(),
@@ -267,10 +155,10 @@ ui <- navbarPage(
         
         tags$div(
           tags$ul(
-            tags$li(tags$strong("Adrián Pedreira:"), " Web development, experimental assays, and data collection."),
-            tags$li(tags$strong("Nerea Martínez-López:"), " Mathematical modeling and theoretical framework."),
-            tags$li(tags$strong("Xosé A. Vázquez:"), " Experimental design."),
-            tags$li(tags$strong("Míriam R. García:"), " Web and Theory Supervision.")
+            tags$li(tags$strong(orcid_link("Adrián Pedreira", "0000-0002-7843-4111"), ":"), " Web development, experimental assays, and data collection."),
+            tags$li(tags$strong(orcid_link("Nerea Martínez-López", "0000-0002-3976-9883"), ":"), " Mathematical modeling and theoretical framework."),
+            tags$li(tags$strong(orcid_link("Xosé A. Vázquez", "0000-0002-1122-4726"), ":"), " Experimental design."),
+            tags$li(tags$strong(orcid_link("Míriam R. García", "0000-0001-9538-6388"), ":"), " Web and Theory Supervision.")
           )
         ),
         
@@ -289,13 +177,22 @@ ui <- navbarPage(
             tags$tr(
               tags$td("Selection and Extinction Planes"),
               tags$td("Federal Institute for Materials Research and Testing (BAM), Berlin, Germany"),
-              tags$td("Niclas Nordholt and Frank Schreiber")
+              tags$td(orcid_link("Niclas Nordholt", "0000-0001-5788-0801"), " and ",
+                      orcid_link("Frank Schreiber", "0000-0003-1957-6328"))
+            )
+          ),
+          tags$tbody(
+            tags$tr(
+              tags$td("QACs–EOCs synergy"),
+              tags$td("Laboratory for Process Engineering, Environment, Biotechnology and Energy (LEPABE)–Universidade de Porto, Porto, Portugal"),
+              tags$td(orcid_link("Susana Fernandes", "0000-0002-9132-5382"), " and ",
+                      orcid_link("Manuel Simões", "0000-0002-3355-4398"))
             )
           )
         ),
         
         h2("Contact & Support"),
-        p(HTML("For scientific inquiries regarding web content, please contact <strong>Míriam R. García</strong> (miriamr@iim.csic.es).")),
+        p(HTML("For scientific inquiries regarding web content, please contact <strong>Míriam R. García</strong> (miriamr@iim.csic.es) or <strong>Adrián Pedreira</strong> (apedreira@iim.csic.es).")),
         p(HTML("Microracle is in active development. To report bugs or technical issues, please visit our 
                   <a href='https://github.com/apedreira/microracle' target='_blank'>GitHub repository</a> or contact 
                   <strong>Adrián Pedreira</strong> (apedreira@iim.csic.es)."))
@@ -305,12 +202,7 @@ ui <- navbarPage(
     )
   ),
   
-  navbarMenu(
-    "MODELS",
-    model1UI(),
-    model2UI(),
-    model3UI()
-  )
+  do.call(navbarMenu, c(list("MODELS"), lapply(MODELS, function(m) m$ui(m$id, m))))
 )
 
 
@@ -320,30 +212,34 @@ ui <- navbarPage(
 
 server <- function(input, output, session) {
   # Initialize module servers
-  model1Server(input, output, session)
-  model2Server(input, output, session)
-  model3Server(input, output, session)
+  for (m in MODELS) m$server(m$id)
   
   # --- NAVIGATION FROM HOME BUTTONS ---
-  observeEvent(input$go_mod1, {
-    updateNavbarPage(session, "navbar", selected = "Carvacrol_SubMIC") 
-  })
-  observeEvent(input$go_mod2, {
-    updateNavbarPage(session, "navbar", selected = "DDAC_SubMIC") 
-  })
-  observeEvent(input$go_mod3, {
-    updateNavbarPage(session, "navbar", selected = "PEplane")
+  lapply(MODELS, function(m) {
+    observeEvent(input[[paste0("go_", m$id)]], {
+      updateNavbarPage(session, "navbar", selected = m$value)
+    })
   })
   
-  # ---------------------------------------
-  
-  # URL Parsing Logic
-  observe({
+  # --- URL <-> TAB SYNCHRONISATION ---
+  # Tab in the URL (?tab=<value>); no tab means Home
+  url_tab <- function() {
     query <- parseQueryString(session$clientData$url_search)
-    if (!is.null(query$tab)) {
-      updateNavbarPage(session, "navbar", selected = query$tab)
-    }
+    if (is.null(query$tab)) "Home" else query$tab
+  }
+  
+  # Open the tab of the URL: on start-up and when using the browser's back/forward buttons
+  observe({
+    updateNavbarPage(session, "navbar", selected = url_tab())
   })
+  
+  # Write the open tab in the URL, so the link can be shared and "back" works.
+  # Only when it differs, to avoid adding history entries when the change came from the URL.
+  observeEvent(input$navbar, {
+    if (!identical(isolate(url_tab()), input$navbar)) {
+      updateQueryString(paste0("?tab=", input$navbar), mode = "push")
+    }
+  }, ignoreInit = TRUE)
 }
 
 # Run the Application

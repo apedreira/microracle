@@ -35,7 +35,7 @@ getSelectionPlaneData <- function(inputs, mode) {
   # Calculate Fitness Cost (FC)
   FC <- 1 - mu_S2/mu_S1
   
-  # Bounds on FC (Assumed empty/NULL based on premisas default behavior for now, 
+  # Bounds on FC (assumed empty/NULL for now, following the default behaviour of the model premises; 
   # can be expanded if CIs are passed)
   min_FC <- NULL
   max_FC <- NULL

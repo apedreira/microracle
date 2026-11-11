@@ -1,4 +1,28 @@
-.Rproj.user
+# R / RStudio
+.Rproj.user/
 .Rhistory
+.Rapp.history
 .RData
 .Ruserdata
+*.Rproj
+.Renviron
+.httr-oauth
+
+# shinyapps.io deployment (account, appId, bundleId)
+rsconnect/
+
+# Personal / work files (project root only)
+/Libro1.Xlsx
+/openModal.R
+/test.R
+/Premisas_Modelo_3.docx
+/propuesta_mejoras.txt
+/update_readme.R
+
+# Office lock files (created while a .docx/.xlsx is open)
+~$*
+
+# Operating system
+Thumbs.db
+desktop.ini
+.DS_Store

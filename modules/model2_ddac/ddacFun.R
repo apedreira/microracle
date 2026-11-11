@@ -1,14 +1,5 @@
-### Model_SubMIC_Carvacrol: (Pedreira et al. 20220) A predictive microbiology
-### model to determine the effect of subinhibitory concentrations of Carvacrol
-### on the foodborne species E. coli and B. cereus (single experiment).
-
-library(deSolve)
-
-Ys       <- 0.2306
-aa       <- 0.0000
-bb       <- 77.7600
-
-submic_ddac <- function(time_exp, c_exp, param, y_exp, disc_pts) {
+submic_ddac <- function(time_exp, c_exp, param, y_exp, disc_pts,
+                        fixed = list(Ys = 0.2306, bb = 77.7600)) {
   sampling_times = length(time_exp[!is.na(time_exp)])
   init_exp_time =  time_exp[1]
   final_exp_time =  time_exp[sampling_times]
@@ -51,10 +42,9 @@ submic_ddac <- function(time_exp, c_exp, param, y_exp, disc_pts) {
   gamma_g  <- param[10]
   gamma_d  <- param[11]
   
-  # Non user-settable parameters
-  Ys       <- 0.2306
-  aa       <- 0.0000
-  bb       <- 77.7600
+  # Non user-settable parameters (depend on the strain)
+  Ys       <- fixed$Ys
+  bb       <- fixed$bb
   
   
   # Initial population size (extracted from y measurements):
@@ -63,9 +53,6 @@ submic_ddac <- function(time_exp, c_exp, param, y_exp, disc_pts) {
   #Set initial status of all cell population as live
   Xl = X0
   
-  #print(paste0(typeof(ka0), " P1"))
-  #print(unlist(p))
-  print(paste0("PARAMETROS: ", param))
   
   
   
